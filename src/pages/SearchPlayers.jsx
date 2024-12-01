@@ -52,11 +52,11 @@ const SearchPlayers = () => {
 
   const AVAILABILITY = [
     "Free Agent",
-    "Contract Ending in Winter 2024",
-    "Contract Ending in Summer 2025",
-    "Contract Ending in Winter 2025",
-    "Contract Ending in Summer 2026",
-    "Contract Ending in Winter 2026",
+    "Contract ending in Winter 2024",
+    "Contract ending in Summer 2025",
+    "Contract ending in Winter 2025",
+    "Contract ending in Summer 2026",
+    "Contract ending in Winter 2026",
     "Contract ending in Summer 2027"
   ];
 

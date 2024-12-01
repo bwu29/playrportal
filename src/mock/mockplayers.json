@@ -67,7 +67,7 @@
     "name": "Emma O'Connor",
     "birthYear": 2000,
     "positions": ["Right Back", "Winger"],
-    "citizenship": "Ireland, United States",
+    "citizenship": "Ireland, USA",
     "currentAvailability": "Free Agent",
     "experience": 4
   },
@@ -75,7 +75,7 @@
     "name": "Nina Petrova",
     "birthYear": 1998,
     "positions": ["CF", "ACM"],
-    "citizenship": "Russia, United States",
+    "citizenship": "Russia, USA",
     "currentAvailability": "Contract ending in Winter 2025",
     "experience": 5
   },
@@ -158,5 +158,205 @@
     "citizenship": "Belarus",
     "currentAvailability": "Contract ending in Winter 2024",
     "experience": 3
+  },
+  {
+    "name": "Charlotte Morgan",
+    "birthYear": 1996,
+    "positions": ["RW", "LW"],
+    "citizenship": "Australia, United Kingdom",
+    "currentAvailability": "Free Agent",
+    "experience": 6
+  },
+  {
+    "name": "Leila Benali",
+    "birthYear": 1994,
+    "positions": ["DCM", "ACM"],
+    "citizenship": "Tunisia",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 8
+  },
+  {
+    "name": "Zoe Harper",
+    "birthYear": 1997,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "Canada",
+    "currentAvailability": "Contract ending in Summer 2024",
+    "experience": 7
+  },
+  {
+    "name": "Samantha Bellini",
+    "birthYear": 2000,
+    "positions": ["GK"],
+    "citizenship": "Italy",
+    "currentAvailability": "Free Agent",
+    "experience": 3
+  },
+  {
+    "name": "Sophia Jackson",
+    "birthYear": 1995,
+    "positions": ["CF", "LW"],
+    "citizenship": "United States",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 9
+  },
+  {
+    "name": "Fatima Al-Mansoori",
+    "birthYear": 1998,
+    "positions": ["ACM", "DCM"],
+    "citizenship": "United Arab Emirates",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 6
+  },
+  {
+    "name": "Maya Torres",
+    "birthYear": 1999,
+    "positions": ["LCB", "RCB", "DCM"],
+    "citizenship": "Mexico",
+    "currentAvailability": "Free Agent",
+    "experience": 5
+  },
+  {
+    "name": "Isabella Cruz",
+    "birthYear": 1993,
+    "positions": ["LWB", "LCB"],
+    "citizenship": "Brazil",
+    "currentAvailability": "Contract ending in Summer 2024",
+    "experience": 10
+  },
+  {
+    "name": "Eva Andersson",
+    "birthYear": 1998,
+    "positions": ["Right Back", "Winger"],
+    "citizenship": "Sweden",
+    "currentAvailability": "Free Agent",
+    "experience": 5
+  },
+  {
+    "name": "Lucia Vasquez",
+    "birthYear": 2002,
+    "positions": ["CF", "ACM"],
+    "citizenship": "Colombia",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 3
+  },
+  {
+    "name": "Zoe Elliott",
+    "birthYear": 1997,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "Australia",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 7
+  },
+  {
+    "name": "Anya Rojas",
+    "birthYear": 1994,
+    "positions": ["GK"],
+    "citizenship": "Chile",
+    "currentAvailability": "Free Agent",
+    "experience": 8
+  },
+  {
+    "name": "Kirsten Sykes",
+    "birthYear": 2001,
+    "positions": ["RW", "LW"],
+    "citizenship": "United States",
+    "currentAvailability": "Contract ending in Summer 2025",
+    "experience": 4
+  },
+  {
+    "name": "Julia Roberts",
+    "birthYear": 1998,
+    "positions": ["ACM", "DCM"],
+    "citizenship": "United States",
+    "currentAvailability": "Free Agent",
+    "experience": 6
+  },
+  {
+    "name": "Hannah O'Connor",
+    "birthYear": 1996,
+    "positions": ["LWB", "LCB"],
+    "citizenship": "Ireland",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 8
+  },
+  {
+    "name": "Maya Patel",
+    "birthYear": 1997,
+    "positions": ["DCM", "ACM"],
+    "citizenship": "India",
+    "currentAvailability": "Contract ending in Summer 2025",
+    "experience": 7
+  },
+  {
+    "name": "Vera Kovac",
+    "birthYear": 1998,
+    "positions": ["Right Back", "Winger"],
+    "citizenship": "Serbia",
+    "currentAvailability": "Free Agent",
+    "experience": 5
+  },
+  {
+    "name": "Nicole Munoz",
+    "birthYear": 1997,
+    "positions": ["CF", "LW"],
+    "citizenship": "Mexico",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 6
+  },
+  {
+    "name": "Kiara Thomas",
+    "birthYear": 1996,
+    "positions": ["GK"],
+    "citizenship": "United Kingdom",
+    "currentAvailability": "Free Agent",
+    "experience": 7
+  },
+  {
+    "name": "Sofia Castro",
+    "birthYear": 1998,
+    "positions": ["ACM", "DCM"],
+    "citizenship": "Argentina",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 5
+  },
+  {
+    "name": "Alice Bennett",
+    "birthYear": 2000,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "United States",
+    "currentAvailability": "Free Agent",
+    "experience": 3
+  },
+  {
+    "name": "Jessica Chen",
+    "birthYear": 1997,
+    "positions": ["LWB", "LCB"],
+    "citizenship": "China",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 6
+  },
+  {
+    "name": "Miriam Schreiber",
+    "birthYear": 1999,
+    "positions": ["CF", "ACM"],
+    "citizenship": "Germany",
+    "currentAvailability": "Free Agent",
+    "experience": 5
+  },
+  {
+    "name": "Hana Nakajima",
+    "birthYear": 1995,
+    "positions": ["DCM", "ACM"],
+    "citizenship": "Japan",
+    "currentAvailability": "Contract ending in Summer 2024",
+    "experience": 9
+  },
+  {
+    "name": "Eva Bianchi",
+    "birthYear": 1996,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "Italy",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 7
   }
 ]

@@ -78,11 +78,11 @@ const SearchPlayers = () => {
         (birthYear ? player.birthYear === parseInt(birthYear) : true) &&
         (position ? player.positions.includes(position) : true) &&
         (citizenship ? playerCitizenships.some(c => c.trim() === citizenship) : true) &&
-        (availability ? player.availability === availability : true) &&
+        (availability ? player.currentAvailability === availability : true) &&
         (proExperience ? 
-          (typeof player.proExperience === 'number' ? 
-            matchProExperience(player.proExperience, proExperience) : 
-            player.proExperience === proExperience
+          (typeof player.experience === 'number' ? 
+            matchProExperience(player.experience, proExperience) : 
+            player.experience === proExperience
           ) : true) &&
         (searchTerm ? player.name.toLowerCase().includes(searchTerm.toLowerCase()) : true)
       );
@@ -151,55 +151,56 @@ const SearchPlayers = () => {
       </div>
 
       <div className="filters">
-        <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)}>
-          <option value="">Select Birth Year</option>
-          {birthYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
+  <select value={birthYear} onChange={(e) => setBirthYear(e.target.value)}>
+    <option value="">Select Birth Year</option>
+    {birthYears.map((year) => (
+      <option key={year} value={year}>
+        {year}
+      </option>
+    ))}
+  </select>
 
-        <select value={position} onChange={(e) => setPosition(e.target.value)}>
-          <option value="">Select Position</option>
-          {POSITIONS.map((pos) => (
-            <option key={pos} value={pos}>
-              {pos}
-            </option>
-          ))}
-        </select>
+  <select value={position} onChange={(e) => setPosition(e.target.value)}>
+    <option value="">Select Position</option>
+    {POSITIONS.map((pos) => (
+      <option key={pos} value={pos}>
+        {pos}
+      </option>
+    ))}
+  </select>
 
-        <select value={citizenship} onChange={(e) => setCitizenship(e.target.value)}>
-          <option value="">Select Citizenship</option>
-          {COUNTRIES.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
+  <select value={citizenship} onChange={(e) => setCitizenship(e.target.value)}>
+    <option value="">Select Citizenship</option>
+    {COUNTRIES.map((country) => (
+      <option key={country} value={country}>
+        {country}
+      </option>
+    ))}
+  </select>
 
-        <select value={availability} onChange={(e) => setAvailability(e.target.value)}>
-          <option value="">Select Availability</option>
-          {AVAILABILITY.map((avail) => (
-            <option key={avail} value={avail}>
-              {avail}
-            </option>
-          ))}
-        </select>
+  <select value={availability} onChange={(e) => setAvailability(e.target.value)}>
+    <option value="">Select Availability</option>
+    {AVAILABILITY.map((avail) => (
+      <option key={avail} value={avail}>
+        {avail}
+      </option>
+    ))}
+  </select>
 
-        <select value={proExperience} onChange={(e) => setProExperience(e.target.value)}>
-          <option value="">Select Years of Pro Experience</option>
-          {PRO_EXPERIENCE.map((exp) => (
-            <option key={exp} value={exp}>
-              {exp} {exp === "1" ? "year" : "years"}
-            </option>
-          ))}
-        </select>
+  <select value={proExperience} onChange={(e) => setProExperience(e.target.value)}>
+    <option value="">Select Years of Pro Experience</option>
+    {PRO_EXPERIENCE.map((exp) => (
+      <option key={exp} value={exp}>
+        {exp} {exp === "1" ? "year" : "years"}
+      </option>
+    ))}
+  </select>
 
-        <button className="reset-filters" onClick={handleResetFilters}>
-          Reset Filters
-        </button>
-      </div>
+  <button className="reset-filters" onClick={handleResetFilters}>
+    Reset Filters
+  </button>
+</div>
+
 
       {/* Players Grid and Popup Modal remain the same... */}
       <div className="player-grid">

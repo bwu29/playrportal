@@ -66,7 +66,7 @@
   {
     "name": "Emma O'Connor",
     "birthYear": 2000,
-    "positions": ["Right Back", "Winger"],
+    "positions": ["RWB", "RF"],
     "citizenship": "Ireland, USA",
     "currentAvailability": "Free Agent",
     "experience": 4
@@ -146,7 +146,7 @@
   {
     "name": "Elena Petrov",
     "birthYear": 1998,
-    "positions": ["Right Back", "Winger"],
+    "positions": ["RWB", "RF"],
     "citizenship": "Russia",
     "currentAvailability": "Free Agent",
     "experience": 5
@@ -226,7 +226,7 @@
   {
     "name": "Eva Andersson",
     "birthYear": 1998,
-    "positions": ["Right Back", "Winger"],
+    "positions": ["RWB", "RF"],
     "citizenship": "Sweden",
     "currentAvailability": "Free Agent",
     "experience": 5
@@ -290,7 +290,7 @@
   {
     "name": "Vera Kovac",
     "birthYear": 1998,
-    "positions": ["Right Back", "Winger"],
+    "positions": ["RWB", "RF"],
     "citizenship": "Serbia",
     "currentAvailability": "Free Agent",
     "experience": 5

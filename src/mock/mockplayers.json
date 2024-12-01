@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Sophia Williams",
+    "birthYear": 1997,
+    "positions": ["RW", "CF"],
+    "citizenship": "United States",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 6
+  },
+  {
+    "name": "Mia Garcia",
+    "birthYear": 1995,
+    "positions": ["DCM", "ACM"],
+    "citizenship": "Mexico",
+    "currentAvailability": "Free Agent",
+    "experience": 9
+  },
+  {
+    "name": "Amara N'Diaye",
+    "birthYear": 1993,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "Senegal",
+    "currentAvailability": "Contract ending in Summer 2025",
+    "experience": 10
+  },
+  {
+    "name": "Isabelle Dubois",
+    "birthYear": 2001,
+    "positions": ["GK"],
+    "citizenship": "France",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 3
+  },
+  {
+    "name": "Lina Johansson",
+    "birthYear": 1994,
+    "positions": ["CF", "LW"],
+    "citizenship": "Sweden, Canada",
+    "currentAvailability": "Free Agent",
+    "experience": 8
+  },
+  {
+    "name": "Zara Ahmed",
+    "birthYear": 1996,
+    "positions": ["ACM", "DCM"],
+    "citizenship": "Egypt",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 7
+  },
+  {
+    "name": "Kara Anderson",
+    "birthYear": 1999,
+    "positions": ["LCB", "RCB", "DCM"],
+    "citizenship": "Canada",
+    "currentAvailability": "Contract ending in Summer 2025",
+    "experience": 5
+  },
+  {
+    "name": "Camila Silva",
+    "birthYear": 1992,
+    "positions": ["LWB", "LCB"],
+    "citizenship": "Brazil",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 12
+  },
+  {
+    "name": "Emma O'Connor",
+    "birthYear": 2000,
+    "positions": ["Right Back", "Winger"],
+    "citizenship": "Ireland, United States",
+    "currentAvailability": "Free Agent",
+    "experience": 4
+  },
+  {
+    "name": "Nina Petrova",
+    "birthYear": 1998,
+    "positions": ["CF", "ACM"],
+    "citizenship": "Russia, United States",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 5
+  },
+  {
+    "name": "Lena Schmidt",
+    "birthYear": 1995,
+    "positions": ["RW", "CF"],
+    "citizenship": "Germany",
+    "currentAvailability": "Free Agent",
+    "experience": 7
+  },
+  {
+    "name": "Valentina Herrera",
+    "birthYear": 1997,
+    "positions": ["DCM", "ACM"],
+    "citizenship": "Argentina",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 6
+  },
+  {
+    "name": "Keisha Roberts",
+    "birthYear": 1992,
+    "positions": ["LCB", "RCB"],
+    "citizenship": "Jamaica, United States",
+    "currentAvailability": "Contract ending in Summer 2024",
+    "experience": 11
+  },
+  {
+    "name": "Sophie Laurent",
+    "birthYear": 1999,
+    "positions": ["GK"],
+    "citizenship": "France",
+    "currentAvailability": "Free Agent",
+    "experience": 4
+  },
+  {
+    "name": "Carla Rivera",
+    "birthYear": 1993,
+    "positions": ["CF", "LW"],
+    "citizenship": "Spain",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 8
+  },
+  {
+    "name": "Tariq Al-Farsi",
+    "birthYear": 1996,
+    "positions": ["ACM", "DCM"],
+    "citizenship": "United Arab Emirates",
+    "currentAvailability": "Contract ending in Winter 2025",
+    "experience": 7
+  },
+  {
+    "name": "Olivia Taylor",
+    "birthYear": 2000,
+    "positions": ["LCB", "RCB", "DCM"],
+    "citizenship": "United Kingdom",
+    "currentAvailability": "Free Agent",
+    "experience": 3
+  },
+  {
+    "name": "Julia Martins",
+    "birthYear": 1994,
+    "positions": ["LWB", "LCB"],
+    "citizenship": "Brazil",
+    "currentAvailability": "Contract ending in Summer 2025",
+    "experience": 9
+  },
+  {
+    "name": "Elena Petrov",
+    "birthYear": 1998,
+    "positions": ["Right Back", "Winger"],
+    "citizenship": "Russia",
+    "currentAvailability": "Free Agent",
+    "experience": 5
+  },
+  {
+    "name": "Natalia Ivankov",
+    "birthYear": 2002,
+    "positions": ["CF", "ACM"],
+    "citizenship": "Belarus",
+    "currentAvailability": "Contract ending in Winter 2024",
+    "experience": 3
+  }
+]

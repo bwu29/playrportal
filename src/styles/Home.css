@@ -1,0 +1,171 @@
+/* Hero Section */
+#hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 10px 100px 80px;
+    background-color: #000000;
+}
+
+.overview {
+    max-width: 50%;
+}
+
+.overview h1 {
+    font-size: 2.5rem;
+    color: #c9c9c9;
+    margin-bottom: 20px;
+}
+
+.overview p {
+    font-size: 1.2rem;
+    color: #dcdcdc;
+    margin-bottom: 30px;
+}
+
+.waitlist-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.waitlist-input {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.waitlist-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.waitlist-button:hover {
+    background-color: #0056b3;
+}
+
+.backsplash img {
+    width: 400px;
+    height: auto;
+}
+
+/* Info Section */
+.info-section {
+    background-color: #f8f9fa; 
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 20px;
+    flex-wrap: wrap; /* Allow for responsive layout */
+}
+
+.info-box {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    width: 40%;
+    max-width: 400px; /* Max width for cards */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center text inside the card */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+}
+
+.info-box h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-box ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    color: #666;
+    text-align: left; /* Align the list to the left */
+}
+
+.info-box ul li {
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.info-button {
+    display: block;
+    margin-top: 20px; /* Space between the list and the button */
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%; /* Full width for the button */
+}
+
+.info-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the Purpose Section */
+.purpose {
+    text-align: center; /* Centers content */
+    padding: 40px 20px; /* Add padding around the section */
+    background-color: #f8f9fa; /* Light background for the purpose section */
+}
+
+.purpose img {
+    max-width: 400px; /* Make the image smaller */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: 20px; /* Add spacing below the image */
+}
+
+.purpose h1 {
+    font-size: 2.5rem; /* Larger font size for the heading */
+    font-weight: 600; /* Bold the text */
+    text-decoration: underline; /* Underline the heading */
+    margin-bottom: 20px; /* Add spacing below the heading */
+}
+
+.purpose p {
+    font-size: 1.1rem; /* Slightly larger font size for the paragraph */
+    line-height: 1.6; /* Increase line height for readability */
+    color: #555; /* Dark gray text color */
+    max-width: 800px; /* Limit paragraph width */
+    margin: 0 auto; /* Center the paragraph */
+}
+
+/* Optional: Make the content responsive */
+@media (max-width: 768px) {
+    .purpose img {
+        max-width: 120px; /* Reduce image size on smaller screens */
+    }
+
+    .purpose h1 {
+        font-size: 2rem; /* Adjust heading size on smaller screens */
+    }
+
+    .purpose p {
+        font-size: 1rem; /* Adjust paragraph size on smaller screens */
+        padding: 0 15px; /* Add padding on smaller screens */
+    }
+
+    .info-section {
+        flex-direction: column; /* Stack the info boxes vertically on small screens */
+    }
+
+    .info-box {
+        width: 80%; /* Allow for responsive width of the info box */
+        margin-bottom: 20px; /* Add spacing between the cards */
+    }
+}

@@ -1,0 +1,15 @@
+[
+    {
+      "username": "player1",
+      "password": "password1",
+      "role": "player",
+      "profile": {}
+    },
+    {
+      "username": "club1",
+      "password": "password2",
+      "role": "club",
+      "profile": {}
+    }
+  ]
+  

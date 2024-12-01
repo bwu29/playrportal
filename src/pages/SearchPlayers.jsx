@@ -65,8 +65,8 @@ const SearchPlayers = () => {
     setFilteredPlayers(mockPlayersData);
   }, []);
 
-  // Generate birth years from 1884 to 2010
-  const birthYears = Array.from({ length: 2010 - 1884 + 1 }, (_, i) => 2010 - i);
+  // Generate birth years from 1984 to 2010
+  const birthYears = Array.from({ length: 2010 - 1984 + 1 }, (_, i) => 2010 - i);
 
   // Updated filter function to handle multiple citizenships
   useEffect(() => {

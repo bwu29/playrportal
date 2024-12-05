@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import mockPlayersData from "../mock/mockplayers.json";
 import "../styles/SearchPlayers.css";
+import { BIRTH_YEARS, POSITIONS, COUNTRIES, AVAILABILITY, PRO_EXPERIENCE } from "../constants/dropdownOptions";
 
 const SearchPlayers = () => {
   const [players, setPlayers] = useState([]);

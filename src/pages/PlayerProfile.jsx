@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import AuthPopup from "../components/AuthPopup"; // Import the popup
 import "../styles/PlayerProfile.css";
+import { BIRTH_YEARS, POSITIONS, COUNTRIES, AVAILABILITY, PRO_EXPERIENCE } from "../constants/dropdownOptions";
 
 const PlayerProfile = () => {
   const { isAuthenticated, user } = useContext(AuthContext); // Check if user is authenticated
@@ -81,74 +82,104 @@ const PlayerProfile = () => {
         
               <div className="profile-details-section">
               <div className="field">
-                <label>Birth Year:</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="birthYear"
-                    value={profile.birthYear}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{profile.birthYear || "Not provided"}</span>
-                )}
-              </div>
+  <label>Birth Year:</label>
+  {isEditing ? (
+    <select
+      name="birthYear"
+      value={profile.birthYear}
+      onChange={handleInputChange}
+    >
+      <option value="">Select Birth Year</option>
+      {BIRTH_YEARS.map((year) => (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span>{profile.birthYear || "Not provided"}</span>
+  )}
+</div>
 
-              <div className="field">
-                <label>Positions:</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="positions"
-                    value={profile.positions}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{profile.positions || "Not provided"}</span>
-                )}
-              </div>
+<div className="field">
+  <label>Positions:</label>
+  {isEditing ? (
+    <select
+      name="positions"
+      value={profile.positions}
+      onChange={handleInputChange}
+    >
+      <option value="">Select Position</option>
+      {POSITIONS.map((position) => (
+        <option key={position} value={position}>
+          {position}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span>{profile.positions || "Not provided"}</span>
+  )}
+</div>
 
-              <div className="field">
-                <label>Availability:</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="availability"
-                    value={profile.availability}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{profile.availability || "Not provided"}</span>
-                )}
-              </div>
+<div className="field">
+  <label>Citizenship:</label>
+  {isEditing ? (
+    <select
+      name="citizenship"
+      value={profile.citizenship}
+      onChange={handleInputChange}
+    >
+      <option value="">Select Citizenship</option>
+      {COUNTRIES.map((country) => (
+        <option key={country} value={country}>
+          {country}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span>{profile.citizenship || "Not provided"}</span>
+  )}
+</div>
 
-              <div className="field">
-                <label>Citizenship:</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="citizenship"
-                    value={profile.citizenship}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{profile.citizenship || "Not provided"}</span>
-                )}
-              </div>
+<div className="field">
+  <label>Availability:</label>
+  {isEditing ? (
+    <select
+      name="availability"
+      value={profile.availability}
+      onChange={handleInputChange}
+    >
+      <option value="">Select Availability</option>
+      {AVAILABILITY.map((avail) => (
+        <option key={avail} value={avail}>
+          {avail}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span>{profile.availability || "Not provided"}</span>
+  )}
+</div>
 
-              <div className="field">
-                <label>Years of Pro Experience:</label>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    name="proExperience"
-                    value={profile.proExperience}
-                    onChange={handleInputChange}
-                  />
-                ) : (
-                  <span>{profile.proExperience || "Not provided"}</span>
-                )}
-              </div>
+<div className="field">
+  <label>Pro Experience:</label>
+  {isEditing ? (
+    <select
+      name="proExperience"
+      value={profile.proExperience}
+      onChange={handleInputChange}
+    >
+      <option value="">Select Pro Experience</option>
+      {PRO_EXPERIENCE.map((exp) => (
+        <option key={exp} value={exp}>
+          {exp}
+        </option>
+      ))}
+    </select>
+  ) : (
+    <span>{profile.proExperience || "Not provided"}</span>
+  )}
+</div>
 
               <div className="field">
                 <label>Highlight Video:</label>

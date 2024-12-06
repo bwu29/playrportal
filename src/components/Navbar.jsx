@@ -35,7 +35,7 @@ const Navbar = () => {
                 <Link to="/profile" className="navbar-link">My Profile</Link>
               </li>
               <li className="navbar-item">
-                <Link to="/clubs" className="navbar-link">Browse Clubs</Link>
+                <Link to="/opportunities" className="navbar-link">Browse Opportunities</Link>
               </li>
               <li className="navbar-item">
                 <button onClick={logout} className="navbar-button">Logout</button>

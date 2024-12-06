@@ -7,6 +7,7 @@ import PlayerProfile from "./pages/PlayerProfile";
 import ClubProfile from "./pages/ClubProfile";
 import SearchPlayers from "./pages/SearchPlayers";
 import SavedPlayers from "./pages/SavedPlayers"
+import Opportunities from "./pages/Opportunities";
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
           <Route path="/clubProfile" element={<ClubProfile />} />
           <Route path="/search-players" element={<SearchPlayers />} />
           <Route path="/saved-players" element={<SavedPlayers />} />
+          <Route path="/opportunities" element={<Opportunities />} />
+
         </Routes>
       </Router>
     </AuthProvider>

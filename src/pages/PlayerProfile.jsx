@@ -1,8 +1,17 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import AuthPopup from "../components/AuthPopup"; // Import the popup
+import AuthPopup from "../components/AuthPopup"; 
+import Select from "react-select";
 import "../styles/PlayerProfile.css";
 import { BIRTH_YEARS, POSITIONS, COUNTRIES, AVAILABILITY, PRO_EXPERIENCE } from "../constants/dropdownOptions";
+
+const countriesOptions = COUNTRIES.map((country) => ({ value: country, label: country }));
+const positionsOptions = POSITIONS.map((position) => ({ value: position, label: position }));
+const birthYearOptions = BIRTH_YEARS.map((year) => ({ value: year, label: year }));
+const availabilityOptions = AVAILABILITY.map((avail) => ({ value: avail, label: avail }));
+const proExperienceOptions = PRO_EXPERIENCE.map((exp) => ({ value: exp, label: exp }));
+
+
 
 const PlayerProfile = () => {
   const { isAuthenticated, user } = useContext(AuthContext); // Check if user is authenticated
@@ -11,10 +20,11 @@ const PlayerProfile = () => {
 
   const [profile, setProfile] = useState({
     profileImage: "",
+    playerName: "",
     birthYear: "",
-    positions: "",
+    positions: [],
     availability: "",
-    citizenship: "",
+    citizenship: [],
     proExperience: "",
     highlightVideo: "",
     fullMatchVideo: "",
@@ -23,6 +33,20 @@ const PlayerProfile = () => {
     whatsapp: "",
     agentEmail: "",
   });
+  
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfile((prev) => ({
+          ...prev,
+          profileImage: reader.result, // Save the image as base64
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleLoginSuccess = (loggedInUser) => {
     setShowAuthPopup(false); // Close popup upon successful login
@@ -34,10 +58,7 @@ const PlayerProfile = () => {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    setProfile((prev) => ({ ...prev, playerCV: e.target.files[0] }));
-  };
-
+ 
   const handleSave = () => {
     setIsEditing(false);
     // Add logic to save data (e.g., API call)
@@ -58,128 +79,120 @@ const PlayerProfile = () => {
           <div className="profile-container">
             {/* Profile Picture Section */}
             <div className="profile-picture-section">
-              <div className="profile-picture">
-                {profile.profileImage ? (
-                  <img src={profile.profileImage} alt="Profile" />
-                ) : (
-                  <div className="placeholder">
-                    <span>No Image</span>
-                  </div>
-                )}
-              </div>
-              {isEditing && (
-                <input
-                  type="text"
-                  name="profileImage"
-                  placeholder="Image URL"
-                  value={profile.profileImage}
-                  onChange={handleInputChange}
-                />
+            <div className="profile-picture">
+              {profile.profileImage ? (
+                <img src={profile.profileImage} alt="Profile" />
+              ) : (
+                <img src = "profilepic.jpg" alt = "Placeholder" />
               )}
             </div>
 
+            {isEditing && (
+               
+               <input type="file" accept="image/*" onChange={handleFileChange} />
+           
+            )}
+          </div>
             {/* Profile Details Section */}
         
               <div className="profile-details-section">
               <div className="field">
-  <label>Birth Year:</label>
-  {isEditing ? (
-    <select
-      name="birthYear"
-      value={profile.birthYear}
-      onChange={handleInputChange}
-    >
-      <option value="">Select Birth Year</option>
-      {BIRTH_YEARS.map((year) => (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <span>{profile.birthYear || "Not provided"}</span>
-  )}
-</div>
+                <label>Player Name:</label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="playerName"
+                    value={profile.playerName}
+                    onChange={handleInputChange}
+                  />
+                ) : (
+                  <span>{profile.playerName || ""}</span>
+                )}
+              </div>
+              <div className="field">
+                <label>Birth Year:</label>
+                {isEditing ? (
+                  <Select
+                    options={birthYearOptions}
+                    value={birthYearOptions.find((option) => option.value === profile.birthYear)}
+                    onChange={(selected) =>
+                      setProfile({ ...profile, birthYear: selected ? selected.value : "" })
+                    }
+                  />
+                ) : (
+                  <span>{profile.birthYear || ""}</span>
+                )}
+              </div>
 
 <div className="field">
   <label>Positions:</label>
   {isEditing ? (
-    <select
+    <Select
+      isMulti
       name="positions"
-      value={profile.positions}
-      onChange={handleInputChange}
-    >
-      <option value="">Select Position</option>
-      {POSITIONS.map((position) => (
-        <option key={position} value={position}>
-          {position}
-        </option>
-      ))}
-    </select>
+      options={positionsOptions}
+      value={profile.positions.map((pos) => ({ value: pos, label: pos }))}
+      onChange={(selectedOptions) => {
+        const values = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+        setProfile((prev) => ({ ...prev, positions: values }));
+      }}
+    />
   ) : (
-    <span>{profile.positions || "Not provided"}</span>
+    <span>{profile.positions.join(", ") || ""}</span>
   )}
 </div>
 
 <div className="field">
   <label>Citizenship:</label>
   {isEditing ? (
-    <select
+    <Select
+      isMulti
       name="citizenship"
-      value={profile.citizenship}
-      onChange={handleInputChange}
-    >
-      <option value="">Select Citizenship</option>
-      {COUNTRIES.map((country) => (
-        <option key={country} value={country}>
-          {country}
-        </option>
-      ))}
-    </select>
+      options={countriesOptions}
+      value={profile.citizenship.map((cit) => ({ value: cit, label: cit }))}
+      onChange={(selectedOptions) => {
+        const values = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+        setProfile((prev) => ({ ...prev, citizenship: values }));
+      }}
+    />
   ) : (
-    <span>{profile.citizenship || "Not provided"}</span>
+    <span>{profile.citizenship.join(", ") || ""}</span>
   )}
 </div>
 
-<div className="field">
-  <label>Availability:</label>
-  {isEditing ? (
-    <select
-      name="availability"
-      value={profile.availability}
-      onChange={handleInputChange}
-    >
-      <option value="">Select Availability</option>
-      {AVAILABILITY.map((avail) => (
-        <option key={avail} value={avail}>
-          {avail}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <span>{profile.availability || "Not provided"}</span>
-  )}
-</div>
 
 <div className="field">
-  <label>Pro Experience:</label>
-  {isEditing ? (
-    <select
-      name="proExperience"
-      value={profile.proExperience}
-      onChange={handleInputChange}
-    >
-      <option value="">Select Pro Experience</option>
-      {PRO_EXPERIENCE.map((exp) => (
-        <option key={exp} value={exp}>
-          {exp}
-        </option>
-      ))}
-    </select>
-  ) : (
-    <span>{profile.proExperience || "Not provided"}</span>
-  )}
-</div>
+                <label>Availability:</label>
+                {isEditing ? (
+                  <Select
+                    options={availabilityOptions}
+                    value={availabilityOptions.find((opt) => opt.value === profile.availability)}
+                    onChange={(selected) =>
+                      setProfile({ ...profile, availability: selected ? selected.value : "" })
+                    }
+                  />
+                ) : (
+                  <span>{profile.availability || ""}</span>
+                )}
+              </div>
+
+              <div className="field">
+                <label>Pro Experience:</label>
+                {isEditing ? (
+                  <Select
+                    options={proExperienceOptions}
+                    value={proExperienceOptions.find(
+                      (opt) => opt.value === profile.proExperience
+                    )}
+                    onChange={(selected) =>
+                      setProfile({ ...profile, proExperience: selected ? selected.value : "" })
+                    }
+                  />
+                ) : (
+                  <span>{profile.proExperience || ""}</span>
+                )}
+              </div>
+
 
               <div className="field">
                 <label>Highlight Video:</label>
@@ -196,7 +209,7 @@ const PlayerProfile = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {profile.highlightVideo || "Not provided"}
+                    {profile.highlightVideo || ""}
                   </a>
                 )}
               </div>
@@ -216,7 +229,7 @@ const PlayerProfile = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    {profile.fullMatchVideo || "Not provided"}
+                    {profile.fullMatchVideo || ""}
                   </a>
                 )}
               </div>
@@ -225,9 +238,10 @@ const PlayerProfile = () => {
                 <label>Player CV:</label>
                 {isEditing ? (
                   <input type="file" onChange={handleFileChange} />
+                  
                 ) : (
                   <span>
-                    {profile.playerCV ? profile.playerCV.name : "Not uploaded"}
+                    {profile.playerCV ? profile.playerCV.name : ""}
                   </span>
                 )}
               </div>
@@ -242,7 +256,7 @@ const PlayerProfile = () => {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <span>{profile.email || "Not provided"}</span>
+                  <span>{profile.email || ""}</span>
                 )}
               </div>
 
@@ -256,7 +270,7 @@ const PlayerProfile = () => {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <span>{profile.whatsapp || "Not provided"}</span>
+                  <span>{profile.whatsapp || ""}</span>
                 )}
               </div>
 
@@ -270,7 +284,7 @@ const PlayerProfile = () => {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <span>{profile.agentEmail || "Not provided"}</span>
+                  <span>{profile.agentEmail || ""}</span>
                 )}
               </div>
             </div>

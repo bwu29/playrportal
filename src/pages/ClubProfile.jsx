@@ -1,12 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import AuthPopup from "../components/AuthPopup"; // Import the popup
 import "../styles/ClubProfile.css";
+import api from "../utils/api"; // Import the API
+import { Navigate } from 'react-router-dom';
 
 const ClubProfile = () => {
   const { isAuthenticated, user } = useContext(AuthContext); // Check if user is authenticated
   const [showAuthPopup, setShowAuthPopup] = useState(!isAuthenticated); // Show popup if not authenticated
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState('');
 
   const [clubProfile, setClubProfile] = useState({
     clubName: "",
@@ -19,7 +23,30 @@ const ClubProfile = () => {
     whatsapp: "",
   });
 
+  useEffect(() => {
+    if (isAuthenticated && user?.role === 'club') {
+      fetchClubProfile();
+    }
+  }, [isAuthenticated, user]);
+
+  // Redirect players to player profile
+  if (isAuthenticated && user?.role === 'player') {
+    return <Navigate to="/playerProfile" replace />;
+  }
+
+  const fetchClubProfile = async () => {
+    try {
+      const response = await api.get('/clubProfiles/profile');
+      setClubProfile(response.data);
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+    }
+  };
+
   const handleLoginSuccess = (loggedInUser) => {
+    if (loggedInUser.role === 'player') {
+      return; // Do nothing as the redirect will happen
+    }
     setShowAuthPopup(false); // Close popup upon successful login
     console.log("Logged in as:", loggedInUser); // Optional: Debug info
   };
@@ -29,16 +56,35 @@ const ClubProfile = () => {
     setClubProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
-    // Add logic to save data (e.g., API call)
+  const handleEditToggle = async () => {
+    if (isEditing) {
+      await handleSave();
+    } else {
+      setIsEditing(true);
+    }
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    setMessage('');
+    
+    try {
+      const response = await api.put('/clubProfiles/profile', clubProfile);
+      setClubProfile(response.data);
+      setIsEditing(false);
+      setMessage('Profile saved successfully!');
+    } catch (error) {
+      setMessage('Error saving profile. Please try again.');
+      console.error('Error saving profile:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
-    
     <div className="club-profile">
       {showAuthPopup && (
-        <AuthPopup onLoginSuccess={handleLoginSuccess} />
+        <AuthPopup onLoginSuccess={handleLoginSuccess} defaultRole="club" />
       )}
 
       {!showAuthPopup && (
@@ -162,9 +208,26 @@ const ClubProfile = () => {
             </div>
           </div>
 
-          <button onClick={() => setIsEditing(!isEditing)}>
-            {isEditing ? "Save Profile" : "Edit Profile"}
-          </button>
+          <div className="profile-actions">
+            {message && <p className={message.includes('Error') ? 'error-message' : 'success-message'}>{message}</p>}
+            
+            <button 
+              onClick={handleEditToggle}
+              disabled={isSaving}
+              className={isEditing ? 'save-button' : 'edit-button'}
+            >
+              {isSaving ? 'Saving...' : isEditing ? 'Save Profile' : 'Edit Profile'}
+            </button>
+            
+            {isEditing && (
+              <button 
+                onClick={() => setIsEditing(false)}
+                className="cancel-button"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </>
       )}
     </div>

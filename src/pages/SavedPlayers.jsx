@@ -1,54 +1,53 @@
-import React, { useState, useEffect } from "react";
-import mockPlayersData from "../mock/savedplayers.json";
+import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/SearchPlayers.css";
-
-
 
 const SavedPlayers = () => {
   const [players, setPlayers] = useState([]);
   const [filteredPlayers, setFilteredPlayers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [position, setPosition] = useState("");
-  const [citizenship, setCitizenship] = useState("");
-  const [availability, setAvailability] = useState("");
-  const [proExperience, setProExperience] = useState("");
-  const [expandedPlayer, setExpandedPlayer] = useState(null);
-  const [savedPlayers, setSavedPlayers] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [popupPlayer, setPopupPlayer] = useState(null);
-  const [viewedDetailsPlayer, setViewedDetailsPlayer] = useState(null);
 
-  
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
-    setPlayers(mockPlayersData);
-    setFilteredPlayers(mockPlayersData);
-  }, []);
+    if (user && user.id) {
+      // Fetch saved players from the backend API
+      axios
+        .get(`/api/players/saved/${user.id}`)
+        .then((response) => {
+          const clubSavedPlayers = response.data;
+          setPlayers(clubSavedPlayers);
+          setFilteredPlayers(clubSavedPlayers);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch saved players:", error);
+        });
+    }
+  }, [user]);
 
-  
- 
-
-  // Rest of the component remains the same...
   const handleViewDetails = (player) => {
     setPopupPlayer(player);
     setShowPopup(true);
-    setViewedDetailsPlayer(player);
   };
 
-  const handleSavePlayer = (player) => {
-    setSavedPlayers([...savedPlayers, player]);
-    alert(`Player ${player.name} saved!`);
-  };
+  const handleUnsavePlayer = async (player) => {
+    try {
+      await axios.delete(`/api/players/${player._id}`);
+      const updatedPlayers = players.filter((savedPlayer) => savedPlayer._id !== player._id);
+      setPlayers(updatedPlayers);
+      setFilteredPlayers(updatedPlayers);
 
-  const handleUnsavePlayer = (player) => {
-    setSavedPlayers(savedPlayers.filter((savedPlayer) => savedPlayer !== player));
-    alert(`Player ${player.name} unsaved!`);
+      alert(`Player ${player.name} unsaved!`);
+    } catch (error) {
+      console.error("Failed to unsave player", error);
+    }
   };
 
   const handleContactPlayer = (player) => {
     alert(`Contacting ${player.name}...`);
   };
-
-
 
   const closePopup = () => {
     setShowPopup(false);
@@ -57,70 +56,48 @@ const SavedPlayers = () => {
 
   return (
     <div className="search-players">
-      <h1>Saved Players</h1>
+      <h1>Saved Players for {user?.club}</h1>
 
-      
-
-      
-
-      {/* Players Grid and Popup Modal remain the same... */}
       <div className="player-grid">
-        {filteredPlayers.map((player, index) => (
-          <div key={index} className="player-card">
+        {filteredPlayers.map((player) => (
+          <div key={player._id} className="player-card">
             <div className="player-details">
               <h3>{player.name}</h3>
               <p>Birth Year: {player.birthYear}</p>
               <p>Positions: {player.positions.join(", ")}</p>
               <p>Citizenship: {player.citizenship}</p>
               <p>Availability: {player.currentAvailability}</p>
-              <p>Pro Experience: {player.experience} years</p>
+
               <button onClick={() => handleViewDetails(player)}>View Details</button>
             </div>
+
             <div className="player-image">
-              <div className="image-placeholder">
-                <img
-                  src={player.profileImage || "/profilepic.jpg"}
-                  alt={`${player.name} profile`}
-                />
-              </div>
+              <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.name} profile`} />
             </div>
+
+            <button onClick={() => handleUnsavePlayer(player)} className="unsave-btn">
+              Unsave Player
+            </button>
           </div>
         ))}
       </div>
 
       {showPopup && popupPlayer && (
         <div className="player-modal">
-          <div className="modal-content">
-            <span className="close" onClick={closePopup}>
-              &times;
-            </span>
-            <div className="popup-content">
-              <div className="popup-image">
-                <img
-                  src={popupPlayer.profileImage || "profilepic.jpg"}
-                  alt={`${popupPlayer.name} profile`}
-                />
-              </div>
-              <div className="popup-details">
-                <h3>{popupPlayer.name}</h3>
-                <p>Birth Year: {popupPlayer.birthYear}</p>
-                <p>Positions: {popupPlayer.positions.join(", ")}</p>
-                <p>Citizenship: {popupPlayer.citizenship}</p>
-                <p>Availability: {popupPlayer.currentAvailability}</p>
-                <p>Pro Experience: {popupPlayer.experience} years</p>
-                <p>Highlight Video URL: {popupPlayer.highlightVideoUrl}</p>
-                <p>Full Match Video URL: {popupPlayer.fullMatchVideoUrl}</p>
-                <p>Player CV: {popupPlayer.playerCV}</p>
+          <span className="close" onClick={closePopup}>&times;</span>
 
-                <button onClick={() => handleContactPlayer(popupPlayer)}>Contact Player</button>
+          <div className="popup-content">
+            <img src={popupPlayer.profileImage || "/profilepic.jpg"} alt={`${popupPlayer.name}`} />
+            <div className="popup-details">
+              <h3>{popupPlayer.name}</h3>
+              <p>Birth Year: {popupPlayer.birthYear}</p>
+              <p>Positions: {popupPlayer.positions.join(", ")}</p>
+              <p>Citizenship: {popupPlayer.citizenship}</p>
 
-                  <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">
-                    Unsave Player
-                  </button>
-                
-                  
-            
-              </div>
+              <button onClick={() => handleContactPlayer(popupPlayer)}>Contact Player</button>
+              <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">
+                Unsave Player
+              </button>
             </div>
           </div>
         </div>

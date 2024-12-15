@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import '../styles/Navbar.css';
 
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/'); // Redirect to home page after logout
+  };
 
   return (
     <nav className="navbar">
@@ -32,13 +38,13 @@ const Navbar = () => {
           {user && user.role === "player" && (
             <>
               <li className="navbar-item">
-                <Link to="/profile" className="navbar-link">My Profile</Link>
+                <Link to="/PlayerProfile" className="navbar-link">My Profile</Link>
               </li>
               <li className="navbar-item">
                 <Link to="/opportunities" className="navbar-link">Browse Opportunities</Link>
               </li>
               <li className="navbar-item">
-                <button onClick={logout} className="navbar-button">Logout</button>
+                <button onClick={handleLogout} className="navbar-button">Logout</button>
               </li>
             </>
           )}
@@ -46,13 +52,16 @@ const Navbar = () => {
           {user && user.role === "club" && (
             <>
               <li className="navbar-item">
+                <Link to="/clubProfile" className="navbar-link">My Profile</Link>
+              </li>
+              <li className="navbar-item">
                 <Link to="/search-players" className="navbar-link">Search Players</Link>
               </li>
               <li className="navbar-item">
                 <Link to="/saved-players" className="navbar-link">Saved Players</Link>
               </li>
               <li className="navbar-item">
-                <button onClick={logout} className="navbar-button">Logout</button>
+                <button onClick={handleLogout} className="navbar-button">Logout</button>
               </li>
             </>
           )}

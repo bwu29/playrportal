@@ -1,48 +1,91 @@
 import React, { createContext, useState, useEffect } from "react";
-import mockUsers from "../mock/mockUsers"; // Import JSON data
+import api from '../utils/api';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    // Simulate fetching users (if required)
-    setUsers(mockUsers);
+    if (token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
+
+  const fetchUser = async () => {
+    try {
+      const res = await api.get('/auth/user');
+      if (res.data) {
+        setUser(res.data);
+        setIsAuthenticated(true);
+      }
+    } catch (err) {
+      setUser(null);
+      setIsAuthenticated(false);
+      // Don't console.error here as 401 is expected when not logged in
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
-  const mockLogin = (username, password) => {
-    const foundUser = users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (foundUser) {
-      setUser(foundUser); // Update user state
-      return { success: true, role: foundUser.role }; // Return role for navigation
+  const login = async (username, password) => {
+    try {
+      const response = await api.post('/auth/login', { username, password });
+      const { token, user } = response.data;
+      
+      localStorage.setItem('token', token);
+      setToken(token);
+      setUser(user);
+      setIsAuthenticated(true);
+      
+      return { success: true, role: user.role };
+    } catch (error) {
+      console.error("Login failed:", error);
+      return { success: false, message: "Invalid credentials" };
     }
-
-    return { success: false }; // Invalid credentials
   };
 
-  const mockLogout = () => {
-    setUser(null); // Clear user state
-  };
-  const mockRegister = (username, password) => {
-    const existingUser = mockUsers.find((u) => u.username === username);
-  
-    if (existingUser) {
-      return { success: false, message: "Username already exists" };
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout");
+      localStorage.removeItem('token');
+      setToken(null);
+      setUser(null);
+      setIsAuthenticated(false);
+      delete api.defaults.headers.common['Authorization'];
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
-  
-    const newUser = { username, password, role: "player" }; // Default to "player" role
-    mockUsers.push(newUser); // Add user to the mock data
-    return { success: true, role: newUser.role };
   };
-  
+
+  const register = async (userData) => {
+    try {
+      const response = await api.post("/auth/register", userData);
+      
+      if (response.data.success) {
+        setUser(response.data.user);
+        setIsAuthenticated(true);
+        return { 
+          success: true, 
+          user: response.data.user 
+        };
+      }
+      
+      return response.data;
+    } catch (error) {
+      return { 
+        success: false, 
+        message: error.response?.data?.message || "Registration failed" 
+      };
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, mockLogin, mockLogout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, setUser, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

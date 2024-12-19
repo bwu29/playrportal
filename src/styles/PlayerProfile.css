@@ -168,14 +168,17 @@ button:active {
 .field label {
   width: 120px;
   font-weight: bold;
+  text-align: left; /* Ensure labels are left-aligned */
 }
 
 .field input[type="text"],
 .field input[type="email"],
-.field select {
+.field select,
+.field .react-select-container {
   padding: 5px;
   margin-left: 10px;
   flex: 1;
+  min-width: 0; /* Prevent dropdowns from pushing labels */
 }
 
 .custom-file-input {
@@ -234,7 +237,7 @@ button:active {
 
 .field .react-select__control {
   width: 100%;
-  min-width: 200px; /* Adjust this value as needed */
+  min-width: 0; /* Adjust this value as needed */
 }
 
 /* Responsive Styles */

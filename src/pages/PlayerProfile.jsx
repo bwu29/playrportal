@@ -5,7 +5,7 @@ import AuthPopup from "../components/AuthPopup";
 import Select from "react-select";
 import "../styles/PlayerProfile.css";
 import { BIRTH_YEARS, POSITIONS, COUNTRIES, AVAILABILITY, PRO_EXPERIENCE } from "../constants/dropdownOptions";
-import { Navigate } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'; // Use Redirect instead of Navigate
 
 const countriesOptions = COUNTRIES.map((country) => ({ value: country, label: country }));
 const positionsOptions = POSITIONS.map((position) => ({ value: position, label: position }));
@@ -13,7 +13,7 @@ const birthYearOptions = BIRTH_YEARS.map((year) => ({ value: year, label: year }
 const availabilityOptions = AVAILABILITY.map((avail) => ({ value: avail, label: avail }));
 const proExperienceOptions = PRO_EXPERIENCE.map((exp) => ({ value: exp, label: exp }));
 
-const FileInput = ({ type, currentFile, onChange, onRemove }) => {
+const FileInput = ({ type, currentFile, currentFileName, onChange, onRemove }) => {
   const inputRef = React.useRef(null);
   const fileTypes = {
     profileImage: "image/jpeg, image/png",
@@ -30,7 +30,7 @@ const FileInput = ({ type, currentFile, onChange, onRemove }) => {
         style={{ display: 'none' }}
       />
       <label className="file-label" onClick={() => inputRef.current.click()}>
-        {currentFile?.fileName || "Choose file"}
+        {currentFile ? "File selected" : "Choose file"}
       </label>
       {currentFile && 
         <span 
@@ -53,6 +53,7 @@ const PlayerProfile = () => {
   const [message, setMessage] = useState('');
   const [profile, setProfile] = useState({
     profileImage: "",
+    profileImageName: "",
     playerName: "",
     birthYear: "",
     positions: [],
@@ -62,6 +63,7 @@ const PlayerProfile = () => {
     highlightVideo: "",
     fullMatchVideo: "",
     playerCV: null,
+    playerCVName: "",
     email: "",
     whatsapp: "",
     agentEmail: "",
@@ -85,44 +87,54 @@ const PlayerProfile = () => {
 
   // Redirect clubs to club profile
   if (isAuthenticated && user?.role === 'club') {
-    return <Navigate to="/clubProfile" replace />;
+    return <Redirect to="/clubProfile" />;
   }
 
-  const handleFileRemove = (fileType) => {
-    setProfile(prev => ({
-      ...prev,
-      [fileType]: null
-    }));
-    setMessage(`${fileType === 'profileImage' ? 'Profile picture' : 'CV'} removed`);
+  const handleFileRemove = async (fileType) => {
+    try {
+      const response = await api.put('/playerProfiles/profile', { [fileType]: null });
+      setProfile(prev => ({
+        ...prev,
+        [fileType]: null
+      }));
+      setMessage(`${fileType === 'profileImage' ? 'Profile picture' : 'CV'} removed`);
+    } catch (error) {
+      setMessage(`Error removing ${fileType === 'profileImage' ? 'profile picture' : 'CV'}. Please try again.`);
+      console.error('Remove error:', error);
+    }
   };
 
   const handleFileChange = async (e, fileType) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
+    if (file.size > 5 * 1024 * 1024) { // Check if file size exceeds 5MB
+      setMessage('File size too large. Maximum size is 5MB.');
+      return;
+    }
+  
     const formData = new FormData();
     formData.append(fileType, file);
-    formData.append('action', 'update'); // Indicate this is a file update
-
+  
     try {
       const response = await api.put('/playerProfiles/profile', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
-
+  
       setProfile(prev => ({
         ...prev,
-        [fileType]: response.data[fileType]
+        [fileType]: response.data[fileType] // Update state with the new file data
       }));
-      
+  
       setMessage(`${fileType === 'profileImage' ? 'Profile picture' : 'CV'} updated successfully!`);
     } catch (error) {
       setMessage(`Error uploading ${fileType === 'profileImage' ? 'profile picture' : 'CV'}. Please try again.`);
       console.error('Upload error:', error);
     }
   };
-
+  
   const handleLoginSuccess = (loggedInUser) => {
     if (loggedInUser.role === 'club') {
       return; // Do nothing as the redirect will happen
@@ -151,31 +163,17 @@ const PlayerProfile = () => {
     setMessage('');
     
     try {
-      const formData = new FormData();
-      
-      // Add all text fields
-      Object.entries(profile).forEach(([key, value]) => {
-        if (key !== 'profileImage' && key !== 'playerCV') {
-          if (Array.isArray(value)) {
-            formData.append(key, JSON.stringify(value));
-          } else if (value !== null && value !== undefined) {
-            formData.append(key, value);
-          }
-        }
+      const response = await api.put('/playerProfiles/profile', {
+        ...profile,
+        positions: JSON.stringify(profile.positions),
+        citizenship: JSON.stringify(profile.citizenship),
+        profileImage: profile.profileImage,
+        playerCV: profile.playerCV,
       });
 
-      // Log the form data for debugging
-      for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
+      if (response.data) {
+        setProfile(response.data); // Update profile state with response data
       }
-
-      const response = await api.put('/playerProfiles/profile', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      setProfile(response.data);
       setIsEditing(false);
       setMessage('Profile saved successfully!');
     } catch (error) {
@@ -187,20 +185,39 @@ const PlayerProfile = () => {
   };
 
   // Add function to get image URL
-  const getImageUrl = (profileImage) => {
-    if (!profileImage) return "profilepic.jpg";
-    if (typeof profileImage === 'object' && profileImage.fileName) {
-      return `${api.defaults.baseURL}/playerProfiles/profile/image/${profile._id}`;
-    }
-    return "profilepic.jpg";
+  const getImageUrl = (profileImageBase64) => {
+    if (!profileImageBase64) return "/profilepic.jpg";
+    return `data:image/jpeg;base64,${profileImageBase64}`;
   };
 
   // Update CV display
-  const getCVLink = () => {
-    if (profile._id && profile.playerCV) {
-      return `${api.defaults.baseURL}/playerProfiles/profile/cv/${profile._id}`;
+  const getCVLink = (playerCVBase64) => {
+    if (!playerCVBase64) return "";
+    return `data:application/pdf;base64,${playerCVBase64}`;
+  };
+
+  const handleDownloadCV = async () => {
+    try {
+      const response = await api.get('/playerProfiles/profile/downloadCV', {
+        responseType: 'blob'
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'playerCV.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      setMessage('Error downloading CV. Please try again.');
+      console.error('Download error:', error);
     }
-    return null;
+  };
+
+  const isExternalLink = (url) => {
+    const herokuDomain = 'https://playrportal-backend-7b03af3bdfa6.herokuapp.com';
+    return url && !url.startsWith(herokuDomain);
   };
 
   return (
@@ -226,7 +243,7 @@ const PlayerProfile = () => {
                   alt="Profile" 
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "profilepic.jpg";
+                    e.target.src = "/profilepic.jpg";
                   }}
                 />
               </div>
@@ -278,14 +295,14 @@ const PlayerProfile = () => {
                     isMulti
                     name="positions"
                     options={positionsOptions}
-                    value={profile.positions.map((pos) => ({ value: pos, label: pos }))}
+                    value={positionsOptions.filter(option => profile.positions.includes(option.value))}
                     onChange={(selectedOptions) => {
                       const values = selectedOptions ? selectedOptions.map((option) => option.value) : [];
                       setProfile((prev) => ({ ...prev, positions: values }));
                     }}
                   />
                 ) : (
-                  <span>{profile.positions.join(", ") || ""}</span>
+                  <span>{Array.isArray(profile.positions) ? profile.positions.join(", ") : ""}</span>
                 )}
               </div>
 
@@ -296,14 +313,14 @@ const PlayerProfile = () => {
                     isMulti
                     name="citizenship"
                     options={countriesOptions}
-                    value={profile.citizenship.map((cit) => ({ value: cit, label: cit }))}
+                    value={countriesOptions.filter(option => profile.citizenship.includes(option.value))}
                     onChange={(selectedOptions) => {
                       const values = selectedOptions ? selectedOptions.map((option) => option.value) : [];
                       setProfile((prev) => ({ ...prev, citizenship: values }));
                     }}
                   />
                 ) : (
-                  <span>{profile.citizenship.join(", ") || ""}</span>
+                  <span>{Array.isArray(profile.citizenship) ? profile.citizenship.join(", ") : ""}</span>
                 )}
               </div>
 
@@ -349,13 +366,7 @@ const PlayerProfile = () => {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <a
-                    href={profile.highlightVideo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {profile.highlightVideo || ""}
-                  </a>
+                  <span>{profile.highlightVideo || ""}</span>
                 )}
               </div>
 
@@ -369,13 +380,7 @@ const PlayerProfile = () => {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <a
-                    href={profile.fullMatchVideo}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {profile.fullMatchVideo || ""}
-                  </a>
+                  <span>{profile.fullMatchVideo || ""}</span>
                 )}
               </div>
 
@@ -391,16 +396,10 @@ const PlayerProfile = () => {
                     />
                   </div>
                 ) : (
-                  profile.playerCV?.fileName ? (
-                    <a 
-                      href={`${api.defaults.baseURL}/playerProfiles/profile/cv/${profile._id}`}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      {profile.playerCV.fileName}
-                    </a>
+                  profile.playerCV ? (
+                    <span>CV Uploaded</span>
                   ) : (
-                    <span>No CV uploaded</span>
+                    <span>No CV Uploaded</span>
                   )
                 )}
               </div>

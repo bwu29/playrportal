@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const isDevelopment = window.location.hostname === 'localhost';
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 const api = axios.create({
-  baseURL: isDevelopment ? 'http://localhost:5000/api' : '/api',
+  baseURL: isDevelopment ? 'http://localhost:5000/api' : 'https://playrportal-backend-7b03af3bdfa6.herokuapp.com/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'

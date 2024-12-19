@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import AuthPopup from "../components/AuthPopup"; // Import the popup
 import "../styles/ClubProfile.css";
 import api from "../utils/api"; // Import the API
-import { Navigate } from 'react-router-dom';
+import { Redirect } from 'react-router-dom'; // Use Redirect instead of Navigate
 
 const ClubProfile = () => {
   const { isAuthenticated, user } = useContext(AuthContext); // Check if user is authenticated
@@ -31,7 +31,7 @@ const ClubProfile = () => {
 
   // Redirect players to player profile
   if (isAuthenticated && user?.role === 'player') {
-    return <Navigate to="/playerProfile" replace />;
+    return <Redirect to="/playerProfile" />;
   }
 
   const fetchClubProfile = async () => {

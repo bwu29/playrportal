@@ -1,70 +1,72 @@
-.profile-header{
+.profile-header {
   padding-bottom: 4vh;
 }
+
 .player-profile {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .profile-container {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .profile-picture-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .profile-picture img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .placeholder {
-    width: 150px;
-    height: 150px;
-    border: 2px dashed #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-  }
-  
-  .profile-details-section {
-    flex: 2;
-    
-  }
-  
-  .field {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-  }
-  
-  .field label {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .field span,
-  .field input,
-  .field a {
-    flex: 1;
-  }
-  .blurred {
-    display: none; /* Hide all content when popup is shown */
-  }
-  
-  /* Container */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.profile-picture-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.profile-details-section {
+  flex: 2;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.field label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.field span,
+.field input,
+.field a {
+  flex: 1;
+}
+
+.blurred {
+  display: none; /* Hide all content when popup is shown */
+}
+
+/* Container */
 .player-profile {
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -153,6 +155,7 @@ button:hover {
 button:active {
   background: #004494;
 }
+
 /* Center labels vertically with input fields */
 .field {
   display: flex;
@@ -221,4 +224,37 @@ button:active {
 .field span {
   font-weight: normal;
   word-break: break-word;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .profile-picture-section {
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .profile-details-section {
+    width: 100%;
+  }
+
+  .field {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .field label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+
+  .field input,
+  .field span,
+  .field a {
+    width: 100%;
+  }
 }

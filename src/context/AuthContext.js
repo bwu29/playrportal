@@ -66,8 +66,11 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post("/auth/register", userData);
       
-      if (response.data.success) {
-        setUser(response.data.user);
+      if (response.data.isAuthenticated) {
+        const { token, user } = response.data;
+        localStorage.setItem('token', token);
+        setToken(token);
+        setUser(user);
         setIsAuthenticated(true);
         return { 
           success: true, 

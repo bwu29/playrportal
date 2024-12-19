@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import '../styles/Navbar.css';
 
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleLogout = async () => {
     await logout();
-    navigate('/'); // Redirect to home page after logout
+    history.push('/'); // Redirect to home page after logout
   };
 
   return (

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import SignOn from "../components/AuthPopup";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "../styles/Home.css";
 
 const HomePage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [currentTab, setCurrentTab] = useState(""); // "players" or "clubs"
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const handleLoginSuccess = (user) => {
-    navigate(`/${user.role}Profile`);
+    history.push(`/${user.role}Profile`);
   };
 
   return (
@@ -44,7 +44,7 @@ const HomePage = () => {
           </ul>
           <button
             className="info-button"
-            onClick={() => navigate("/PlayerProfile")}
+            onClick={() => history.push("/PlayerProfile")}
           >
             Join as a Player
           </button>
@@ -60,7 +60,7 @@ const HomePage = () => {
           </ul>
           <button
             className="info-button"
-            onClick={() => navigate("/ClubProfile")}
+            onClick={() => history.push("/ClubProfile")}
           >
             Join as a Club
           </button>

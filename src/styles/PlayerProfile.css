@@ -54,6 +54,7 @@
 .field label {
   font-weight: bold;
   margin-right: 10px;
+  text-align: left; /* Align labels to the left */
 }
 
 .field span,

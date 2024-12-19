@@ -226,6 +226,16 @@ button:active {
   word-break: break-word;
 }
 
+/* Ensure dropdown containers are wide enough */
+.field .react-select-container {
+  width: 100%;
+}
+
+.field .react-select__control {
+  width: 100%;
+  min-width: 200px; /* Adjust this value as needed */
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .profile-container {
@@ -254,7 +264,8 @@ button:active {
 
   .field input,
   .field span,
-  .field a {
+  .field a,
+  .field .react-select-container {
     width: 100%;
   }
 }

@@ -55,6 +55,46 @@
     position: relative;
     z-index: 1; /* Keeps it above other elements */
   }
+
+  .dropdown {
+    position: relative;
+  }
   
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #333;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    display: none;
+  }
   
+  .dropdown-item {
+    padding: 10px 20px;
+  }
   
+  .dropdown-item .navbar-button {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  /* Hide logout button on small screens */
+  @media (max-width: 768px) {
+    .navbar-item .navbar-button {
+      display: none;
+    }
+  
+    .navbar-item.dropdown .navbar-button {
+      display: block;
+    }
+  }
+
+

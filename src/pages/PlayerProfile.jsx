@@ -277,6 +277,8 @@ const PlayerProfile = () => {
                 <label>Birth Year:</label>
                 {isEditing ? (
                   <Select
+                    className="react-select-container"
+                    classNamePrefix="react-select"
                     options={birthYearOptions}
                     value={birthYearOptions.find((option) => option.value === profile.birthYear)}
                     onChange={(selected) =>
@@ -293,6 +295,8 @@ const PlayerProfile = () => {
                 {isEditing ? (
                   <Select
                     isMulti
+                    className="react-select-container"
+                    classNamePrefix="react-select"
                     name="positions"
                     options={positionsOptions}
                     value={positionsOptions.filter(option => profile.positions.includes(option.value))}
@@ -311,6 +315,8 @@ const PlayerProfile = () => {
                 {isEditing ? (
                   <Select
                     isMulti
+                    className="react-select-container"
+                    classNamePrefix="react-select"
                     name="citizenship"
                     options={countriesOptions}
                     value={countriesOptions.filter(option => profile.citizenship.includes(option.value))}
@@ -328,6 +334,8 @@ const PlayerProfile = () => {
                 <label>Availability:</label>
                 {isEditing ? (
                   <Select
+                    className="react-select-container"
+                    classNamePrefix="react-select"
                     options={availabilityOptions}
                     value={availabilityOptions.find((opt) => opt.value === profile.availability)}
                     onChange={(selected) =>
@@ -343,6 +351,8 @@ const PlayerProfile = () => {
                 <label>Pro Experience:</label>
                 {isEditing ? (
                   <Select
+                    className="react-select-container"
+                    classNamePrefix="react-select"
                     options={proExperienceOptions}
                     value={proExperienceOptions.find(
                       (opt) => opt.value === profile.proExperience

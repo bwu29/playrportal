@@ -14,6 +14,7 @@ const SearchPlayers = () => {
   const { user } = useContext(AuthContext);
   const [players, setPlayers] = useState([]); // All players from the database
   const [filteredPlayers, setFilteredPlayers] = useState([]); // Filtered players
+  const [searchTerm, setSearchTerm] = useState(""); // Search term for player name
   const [birthYear, setBirthYear] = useState("");
   const [position, setPosition] = useState("");
   const [citizenship, setCitizenship] = useState("");
@@ -54,15 +55,16 @@ const SearchPlayers = () => {
   useEffect(() => {
     const filtered = players.filter((player) => {
       return (
+        (searchTerm ? player.playerName.toLowerCase().includes(searchTerm.toLowerCase()) : true) &&
         (birthYear ? player.birthYear === parseInt(birthYear) : true) &&
         (position ? player.positions.includes(position) : true) &&
         (citizenship ? player.citizenship.includes(citizenship) : true) &&
         (availability ? player.availability.includes(availability) : true) &&
-        (proExperience ? player.proExperience === parseInt(proExperience) : true)
+        (proExperience ? player.proExperience === proExperience : true) // Treat proExperience as string
       );
     });
     setFilteredPlayers(filtered);
-  }, [birthYear, position, citizenship, availability, proExperience, players]);
+  }, [searchTerm, birthYear, position, citizenship, availability, proExperience, players]);
 
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
@@ -111,6 +113,12 @@ const SearchPlayers = () => {
     <div className="search-players">
       <h1>Search Players</h1>
       <div className="filters">
+        <input
+          type="text"
+          placeholder="Search by player name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <select onChange={(e) => setBirthYear(e.target.value)}>
           <option value="">Select Birth Year</option>
           {BIRTH_YEARS.map((year) => (

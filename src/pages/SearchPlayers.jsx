@@ -34,7 +34,7 @@ const SearchPlayers = () => {
 
       try {
         console.log('Fetching players...'); // Debug log
-        const response = await api.get('/playerProfiles/all'); // Remove extra 'api'
+        const response = await api.get('/api/playerProfiles/all'); // Ensure correct API endpoint
         console.log('Response:', response.data); // Debug log
         
         if (Array.isArray(response.data)) { // Ensure response data is an array
@@ -98,8 +98,8 @@ const SearchPlayers = () => {
 
   const getImageUrl = (player) => {
     if (!player.profileImage) return "profilepic.jpg";
-    if (typeof player.profileImage === 'string') return player.profileImage;
-    return `${api.defaults.baseURL}/playerProfiles/profile/image/${player._id}`;
+    if (player.profileImage.startsWith('data:image')) return player.profileImage; // Check if already a data URL
+    return `data:image/jpeg;base64,${player.profileImage}`; // Convert to data URL
   };
 
   return (
@@ -151,7 +151,7 @@ const SearchPlayers = () => {
         {filteredPlayers.map((player, index) => (
           <div key={index} className="player-card">
             <div className="player-details">
-              <h3>{player.name}</h3>
+              <h3>{player.playerName}</h3> {/* Ensure player's name is displayed first */}
               <p>Birth Year: {player.birthYear}</p>
               <p>Positions: {player.positions.join(", ")}</p>
               <p>Citizenship: {player.citizenship}</p>

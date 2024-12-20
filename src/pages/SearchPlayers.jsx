@@ -34,7 +34,7 @@ const SearchPlayers = () => {
 
       try {
         console.log('Fetching players...'); // Debug log
-        const response = await api.get('/api/playerProfiles/all'); // Ensure correct API endpoint
+        const response = await api.get('/playerProfiles/all'); // Ensure correct API endpoint
         console.log('Response:', response.data); // Debug log
         
         if (Array.isArray(response.data)) { // Ensure response data is an array

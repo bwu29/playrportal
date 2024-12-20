@@ -37,9 +37,11 @@ const SearchPlayers = () => {
         const response = await api.get('/playerProfiles/all'); // Remove extra 'api'
         console.log('Response:', response.data); // Debug log
         
-        if (response.data) {
+        if (Array.isArray(response.data)) { // Ensure response data is an array
           setPlayers(response.data);
           setFilteredPlayers(response.data);
+        } else {
+          console.error('Unexpected response data format:', response.data);
         }
       } catch (error) {
         console.error("Error fetching players:", error.response?.data || error);

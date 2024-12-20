@@ -109,6 +109,16 @@ const SearchPlayers = () => {
     return `data:application/pdf;base64,${playerCVBase64}`;
   };
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setBirthYear("");
+    setPosition("");
+    setCitizenship("");
+    setAvailability("");
+    setProExperience("");
+    setFilteredPlayers(players);
+  };
+
   return (
     <div className="search-players">
       <h1>Search Players</h1>
@@ -119,7 +129,7 @@ const SearchPlayers = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <select onChange={(e) => setBirthYear(e.target.value)}>
+        <select onChange={(e) => setBirthYear(e.target.value)} value={birthYear}>
           <option value="">Select Birth Year</option>
           {BIRTH_YEARS.map((year) => (
             <option key={year} value={year}>
@@ -127,7 +137,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
-        <select onChange={(e) => setPosition(e.target.value)}>
+        <select onChange={(e) => setPosition(e.target.value)} value={position}>
           <option value="">Select Position</option>
           {POSITIONS.map((pos) => (
             <option key={pos} value={pos}>
@@ -135,7 +145,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
-        <select onChange={(e) => setCitizenship(e.target.value)}>
+        <select onChange={(e) => setCitizenship(e.target.value)} value={citizenship}>
           <option value="">Select Citizenship</option>
           {COUNTRIES.map((cit) => (
             <option key={cit} value={cit}>
@@ -143,7 +153,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
-        <select onChange={(e) => setAvailability(e.target.value)}>
+        <select onChange={(e) => setAvailability(e.target.value)} value={availability}>
           <option value="">Select Availability</option>
           {AVAILABILITY.map((avail) => (
             <option key={avail} value={avail}>
@@ -151,7 +161,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
-        <select onChange={(e) => setProExperience(e.target.value)}>
+        <select onChange={(e) => setProExperience(e.target.value)} value={proExperience}>
           <option value="">Select Years of Pro Experience</option>
           {PRO_EXPERIENCE.map((exp) => (
             <option key={exp} value={exp}>
@@ -159,6 +169,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
+        <button className="reset-filters" onClick={clearFilters}>Clear Filters</button>
       </div>
       <div className="player-grid">
         {filteredPlayers.map((player, index) => (
@@ -209,14 +220,14 @@ const SearchPlayers = () => {
                 <p>Citizenship: {popupPlayer.citizenship}</p>
                 <p>Availability: {popupPlayer.availability}</p>
                 <p>Pro Experience: {popupPlayer.proExperience} years</p>
-                <p>Highlight Video URL: {popupPlayer.highlightVideoUrl}</p>
-                <p>Full Match Video URL: {popupPlayer.fullMatchVideoUrl}</p>
+                <p>Highlight Video: <a href={popupPlayer.highlightVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                <p>Full Match Video: <a href={popupPlayer.fullMatchVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
                 {popupPlayer.playerCV && (
                   <p>
                     Player CV: <a href={getCVLink(popupPlayer.playerCV)} download="playerCV.pdf">Download CV</a>
                   </p>
                 )}
-                <button onClick={() => handleContactPlayer(popupPlayer)}>
+                <button onClick={() => handleContactPlayer(popupPlayer)} style={{ marginRight: '10px' }}>
                   Contact Player
                 </button>
                 {savedPlayers.includes(popupPlayer) ? (

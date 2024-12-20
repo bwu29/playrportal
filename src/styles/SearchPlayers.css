@@ -39,9 +39,7 @@
     margin-left: 10px; /* Add margin to separate from other filters */
 }
 
-.reset-filters:hover {
-    color: #0056b3;
-}
+
 
 .player-grid {
     display: grid;

@@ -169,7 +169,7 @@ const SearchPlayers = () => {
             </option>
           ))}
         </select>
-        <button className="reset-filters" onClick={clearFilters}>Clear Filters</button>
+        <button className="reset-filters text-button" onClick={clearFilters}>Clear Filters</button>
       </div>
       <div className="player-grid">
         {filteredPlayers.map((player, index) => (

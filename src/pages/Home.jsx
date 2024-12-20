@@ -1,16 +1,29 @@
 import React, { useState } from "react";
 import SignOn from "../components/AuthPopup";
 import { useHistory } from "react-router-dom";
+import api from '../utils/api'; // Import the API utility
 import Navbar from "../components/Navbar";
 import "../styles/Home.css";
 
 const HomePage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [currentTab, setCurrentTab] = useState(""); // "players" or "clubs"
+  const [email, setEmail] = useState(""); // State for email input
   const history = useHistory();
 
   const handleLoginSuccess = (user) => {
     history.push(`/${user.role}Profile`);
+  };
+
+  const handleJoinWaitlist = async () => {
+    try {
+      await api.post('/waitlist', { email }); // Add email to the database
+      setEmail(""); // Clear the email field
+      alert("You have successfully joined the waitlist!");
+    } catch (error) {
+      console.error("Failed to join the waitlist:", error);
+      alert("Failed to join the waitlist. Please try again.");
+    }
   };
 
   return (
@@ -24,8 +37,10 @@ const HomePage = () => {
               type="email"
               className="waitlist-input"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <button className="waitlist-button">Join Our Waitlist</button>
+            <button className="waitlist-button" onClick={handleJoinWaitlist}>Join Our Waitlist</button>
           </div>
         </div>
         <div className="backsplash">

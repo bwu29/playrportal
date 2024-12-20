@@ -15,15 +15,9 @@ const HomePage = () => {
     history.push(`/${user.role}Profile`);
   };
 
-  const handleJoinWaitlist = async () => {
-    try {
-      await api.post('/waitlist', { email }); // Add email to the database
-      setEmail(""); // Clear the email field
-      alert("You have successfully joined the waitlist!");
-    } catch (error) {
-      console.error("Failed to join the waitlist:", error);
-      alert("Failed to join the waitlist. Please try again.");
-    }
+  const handleJoinWaitlist = () => {
+    setEmail(""); // Clear the email field
+    alert("You have successfully joined the waitlist!");
   };
 
   return (

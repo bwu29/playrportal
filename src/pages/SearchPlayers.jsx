@@ -102,6 +102,11 @@ const SearchPlayers = () => {
     return `data:image/jpeg;base64,${player.profileImage}`; // Convert to data URL
   };
 
+  const getCVLink = (playerCVBase64) => {
+    if (!playerCVBase64) return "";
+    return `data:application/pdf;base64,${playerCVBase64}`;
+  };
+
   return (
     <div className="search-players">
       <h1>Search Players</h1>
@@ -198,7 +203,11 @@ const SearchPlayers = () => {
                 <p>Pro Experience: {popupPlayer.proExperience} years</p>
                 <p>Highlight Video URL: {popupPlayer.highlightVideoUrl}</p>
                 <p>Full Match Video URL: {popupPlayer.fullMatchVideoUrl}</p>
-                <p>Player CV: {popupPlayer.playerCV}</p>
+                {popupPlayer.playerCV && (
+                  <p>
+                    Player CV: <a href={getCVLink(popupPlayer.playerCV)} download="playerCV.pdf">Download CV</a>
+                  </p>
+                )}
                 <button onClick={() => handleContactPlayer(popupPlayer)}>
                   Contact Player
                 </button>

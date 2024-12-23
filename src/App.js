@@ -8,16 +8,23 @@ import ClubProfile from "./pages/ClubProfile";
 import SearchPlayers from "./pages/SearchPlayers";
 import SavedPlayers from "./pages/SavedPlayers";
 import Opportunities from "./pages/Opportunities";
+import { init } from '@amplitude/analytics-browser';
+
+// Initialize Amplitude with your API key
+init('5536de7451587432e3c4a5b69028c1ba');
 
 const App = () => {
   useEffect(() => {
-    if (window.amplitude) {
-      console.log('Logging App Loaded event...');
-      window.amplitude.getInstance().logEvent('App Loaded');
-      console.log('Amplitude event logged successfully');
-    } else {
-      console.error('Amplitude is not defined');
-    }
+    const interval = setInterval(() => {
+      if (window.amplitude) {
+        console.log('Logging App Loaded event...');
+        window.amplitude.getInstance().logEvent('App Loaded');
+        console.log('Amplitude event logged successfully');
+        clearInterval(interval);
+      } else {
+        console.error('Amplitude is not defined');
+      }
+    }, 1000);
   }, []);
 
   return (

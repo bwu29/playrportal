@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
+import api from '../utils/api';
 import "../styles/SearchPlayers.css";
 
 const SavedPlayers = () => {
@@ -14,8 +14,8 @@ const SavedPlayers = () => {
   useEffect(() => {
     if (user && user.id) {
       // Fetch saved players from the backend API
-      axios
-        .get(`/clubProfiles/savedPlayers`)
+      api
+        .get('/clubProfiles/savedPlayers')
         .then((response) => {
           const clubSavedPlayers = response.data;
           if (Array.isArray(clubSavedPlayers)) {
@@ -38,19 +38,19 @@ const SavedPlayers = () => {
 
   const handleUnsavePlayer = async (player) => {
     try {
-      await axios.delete(`/api/clubProfiles/unsave-player/${player._id}`);
+      await api.delete(`/clubProfiles/unsave-player/${player._id}`);
       const updatedPlayers = players.filter((savedPlayer) => savedPlayer._id !== player._id);
       setPlayers(updatedPlayers);
       setFilteredPlayers(updatedPlayers);
 
-      alert(`Player ${player.name} unsaved!`);
+      alert(`Player ${player.playerName} unsaved!`);
     } catch (error) {
       console.error("Failed to unsave player", error);
     }
   };
 
   const handleContactPlayer = (player) => {
-    alert(`Contacting ${player.name}...`);
+    alert(`Contacting ${player.playerName}...`);
   };
 
   const closePopup = () => {

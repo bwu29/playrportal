@@ -51,16 +51,23 @@ const SavedPlayers = () => {
 
   const handleContactPlayer = async (player) => {
     try {
-      await api.post(`/clubProfiles/contact-player/${player._id}`);
-      alert(`Contact request sent to ${player.playerName}!`);
+      await api.post('/contactRequests', { playerId: player._id });
+      alert("Your contact request has been submitted. You will receive an email shortly.");
     } catch (error) {
       console.error("Failed to contact player", error);
+      alert("Failed to submit contact request. Please try again.");
     }
   };
 
   const closePopup = () => {
     setShowPopup(false);
     setPopupPlayer(null);
+  };
+
+  const getImageUrl = (player) => {
+    if (!player.profileImage) return "profilepic.jpg";
+    if (player.profileImage.startsWith('data:image')) return player.profileImage; // Check if already a data URL
+    return `data:image/jpeg;base64,${player.profileImage}`; // Convert to data URL
   };
 
   return (
@@ -79,17 +86,20 @@ const SavedPlayers = () => {
                 <p>Positions: {player.positions.join(", ")}</p>
                 <p>Citizenship: {player.citizenship.join(", ")}</p>
                 <p>Availability: {player.availability}</p>
-
                 <button onClick={() => handleViewDetails(player)}>View Details</button>
               </div>
-
               <div className="player-image">
-                <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.playerName} profile`} />
+                <div className="image-placeholder">
+                  <img
+                    src={getImageUrl(player)}
+                    alt={`${player.playerName || 'Player'} profile`}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "profilepic.jpg";
+                    }}
+                  />
+                </div>
               </div>
-
-              <button onClick={() => handleUnsavePlayer(player)} className="unsave-btn">
-                Unsave Player
-              </button>
             </div>
           ))}
         </div>
@@ -97,20 +107,37 @@ const SavedPlayers = () => {
 
       {showPopup && popupPlayer && (
         <div className="player-modal">
-          <span className="close" onClick={closePopup}>&times;</span>
-
-          <div className="popup-content">
-            <img src={popupPlayer.profileImage || "/profilepic.jpg"} alt={`${popupPlayer.playerName}`} />
-            <div className="popup-details">
-              <h3>{popupPlayer.playerName}</h3>
-              <p>Birth Year: {popupPlayer.birthYear}</p>
-              <p>Positions: {popupPlayer.positions.join(", ")}</p>
-              <p>Citizenship: {popupPlayer.citizenship.join(", ")}</p>
-
-              <button onClick={() => handleContactPlayer(popupPlayer)}>Contact Player</button>
-              <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">
-                Unsave Player
-              </button>
+          <div className="modal-content">
+            <span className="close" onClick={closePopup}>
+              &times;
+            </span>
+            <div className="popup-content">
+              <div className="popup-image">
+                <img
+                  src={getImageUrl(popupPlayer)}
+                  alt={`${popupPlayer.name} profile`}
+                />
+              </div>
+              <div className="popup-details">
+                <h3>{popupPlayer.name}</h3>
+                <p>Birth Year: {popupPlayer.birthYear}</p>
+                <p>Positions: {popupPlayer.positions.join(", ")}</p>
+                <p>Citizenship: {popupPlayer.citizenship.join(", ")}</p>
+                <p>Availability: {popupPlayer.availability}</p>
+                <p>Highlight Video: <a href={popupPlayer.highlightVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                <p>Full Match Video: <a href={popupPlayer.fullMatchVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                {popupPlayer.playerCV && (
+                  <p>
+                    Player CV: <a href={`data:application/pdf;base64,${popupPlayer.playerCV}`} download="playerCV.pdf">Download CV</a>
+                  </p>
+                )}
+                <button onClick={() => handleContactPlayer(popupPlayer)} style={{ marginRight: '10px' }}>
+                  Contact Player
+                </button>
+                <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">
+                  Unsave Player
+                </button>
+              </div>
             </div>
           </div>
         </div>

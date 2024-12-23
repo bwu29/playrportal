@@ -15,7 +15,7 @@ const SavedPlayers = () => {
     if (user && user.id) {
       // Fetch saved players from the backend API
       axios
-        .get(`/api/players/saved/${user.id}`)
+        .get(`/api/clubProfiles/savedPlayers`)
         .then((response) => {
           const clubSavedPlayers = response.data;
           setPlayers(clubSavedPlayers);
@@ -34,7 +34,7 @@ const SavedPlayers = () => {
 
   const handleUnsavePlayer = async (player) => {
     try {
-      await axios.delete(`/api/players/${player._id}`);
+      await axios.delete(`/api/clubProfiles/unsave-player/${player._id}`);
       const updatedPlayers = players.filter((savedPlayer) => savedPlayer._id !== player._id);
       setPlayers(updatedPlayers);
       setFilteredPlayers(updatedPlayers);
@@ -58,29 +58,33 @@ const SavedPlayers = () => {
     <div className="search-players">
       <h1>Saved Players for {user?.club}</h1>
 
-      <div className="player-grid">
-        {filteredPlayers.map((player) => (
-          <div key={player._id} className="player-card">
-            <div className="player-details">
-              <h3>{player.name}</h3>
-              <p>Birth Year: {player.birthYear}</p>
-              <p>Positions: {player.positions.join(", ")}</p>
-              <p>Citizenship: {player.citizenship}</p>
-              <p>Availability: {player.currentAvailability}</p>
+      {filteredPlayers.length === 0 ? (
+        <p>No saved players yet.</p>
+      ) : (
+        <div className="player-grid">
+          {filteredPlayers.map((player) => (
+            <div key={player._id} className="player-card">
+              <div className="player-details">
+                <h3>{player.name}</h3>
+                <p>Birth Year: {player.birthYear}</p>
+                <p>Positions: {player.positions.join(", ")}</p>
+                <p>Citizenship: {player.citizenship}</p>
+                <p>Availability: {player.currentAvailability}</p>
 
-              <button onClick={() => handleViewDetails(player)}>View Details</button>
+                <button onClick={() => handleViewDetails(player)}>View Details</button>
+              </div>
+
+              <div className="player-image">
+                <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.name} profile`} />
+              </div>
+
+              <button onClick={() => handleUnsavePlayer(player)} className="unsave-btn">
+                Unsave Player
+              </button>
             </div>
-
-            <div className="player-image">
-              <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.name} profile`} />
-            </div>
-
-            <button onClick={() => handleUnsavePlayer(player)} className="unsave-btn">
-              Unsave Player
-            </button>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {showPopup && popupPlayer && (
         <div className="player-modal">

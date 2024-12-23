@@ -73,7 +73,7 @@ const SearchPlayers = () => {
 
   const handleSavePlayer = async (player) => {
     try {
-      await api.post(`/api/clubProfiles/save-player/${player._id}`);
+      await api.post(`/clubProfiles/save-player/${player._id}`);
       setSavedPlayers([...savedPlayers, player]);
     } catch (error) {
       console.error("Error saving player:", error);

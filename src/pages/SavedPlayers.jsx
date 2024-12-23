@@ -17,6 +17,7 @@ const SavedPlayers = () => {
       axios
         .get(`/api/clubProfiles/savedPlayers`)
         .then((response) => {
+          console.log("API Response:", response); // Log the API response
           const clubSavedPlayers = response.data;
           if (Array.isArray(clubSavedPlayers)) {
             setPlayers(clubSavedPlayers);
@@ -43,14 +44,14 @@ const SavedPlayers = () => {
       setPlayers(updatedPlayers);
       setFilteredPlayers(updatedPlayers);
 
-      alert(`Player ${player.name} unsaved!`);
+      alert(`Player ${player.playerName} unsaved!`);
     } catch (error) {
       console.error("Failed to unsave player", error);
     }
   };
 
   const handleContactPlayer = (player) => {
-    alert(`Contacting ${player.name}...`);
+    alert(`Contacting ${player.playerName}...`);
   };
 
   const closePopup = () => {

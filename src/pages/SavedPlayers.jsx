@@ -18,8 +18,12 @@ const SavedPlayers = () => {
         .get(`/api/clubProfiles/savedPlayers`)
         .then((response) => {
           const clubSavedPlayers = response.data;
-          setPlayers(clubSavedPlayers);
-          setFilteredPlayers(clubSavedPlayers);
+          if (Array.isArray(clubSavedPlayers)) {
+            setPlayers(clubSavedPlayers);
+            setFilteredPlayers(clubSavedPlayers);
+          } else {
+            console.error("Unexpected response data format:", clubSavedPlayers);
+          }
         })
         .catch((error) => {
           console.error("Failed to fetch saved players:", error);
@@ -65,17 +69,17 @@ const SavedPlayers = () => {
           {filteredPlayers.map((player) => (
             <div key={player._id} className="player-card">
               <div className="player-details">
-                <h3>{player.name}</h3>
+                <h3>{player.playerName}</h3>
                 <p>Birth Year: {player.birthYear}</p>
                 <p>Positions: {player.positions.join(", ")}</p>
-                <p>Citizenship: {player.citizenship}</p>
-                <p>Availability: {player.currentAvailability}</p>
+                <p>Citizenship: {player.citizenship.join(", ")}</p>
+                <p>Availability: {player.availability}</p>
 
                 <button onClick={() => handleViewDetails(player)}>View Details</button>
               </div>
 
               <div className="player-image">
-                <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.name} profile`} />
+                <img src={player.profileImage || "/profilepic.jpg"} alt={`${player.playerName} profile`} />
               </div>
 
               <button onClick={() => handleUnsavePlayer(player)} className="unsave-btn">
@@ -91,12 +95,12 @@ const SavedPlayers = () => {
           <span className="close" onClick={closePopup}>&times;</span>
 
           <div className="popup-content">
-            <img src={popupPlayer.profileImage || "/profilepic.jpg"} alt={`${popupPlayer.name}`} />
+            <img src={popupPlayer.profileImage || "/profilepic.jpg"} alt={`${popupPlayer.playerName}`} />
             <div className="popup-details">
-              <h3>{popupPlayer.name}</h3>
+              <h3>{popupPlayer.playerName}</h3>
               <p>Birth Year: {popupPlayer.birthYear}</p>
               <p>Positions: {popupPlayer.positions.join(", ")}</p>
-              <p>Citizenship: {popupPlayer.citizenship}</p>
+              <p>Citizenship: {popupPlayer.citizenship.join(", ")}</p>
 
               <button onClick={() => handleContactPlayer(popupPlayer)}>Contact Player</button>
               <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">

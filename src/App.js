@@ -12,7 +12,11 @@ import Opportunities from "./pages/Opportunities";
 const App = () => {
   useEffect(() => {
     if (window.amplitude) {
+      console.log('Logging App Loaded event...');
       window.amplitude.getInstance().logEvent('App Loaded');
+      console.log('Amplitude event logged successfully');
+    } else {
+      console.error('Amplitude is not defined');
     }
   }, []);
 

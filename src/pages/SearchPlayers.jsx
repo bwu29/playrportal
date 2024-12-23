@@ -11,7 +11,7 @@ import {
 } from "../constants/dropdownOptions";
 
 const SearchPlayers = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [players, setPlayers] = useState([]); // All players from the database
   const [filteredPlayers, setFilteredPlayers] = useState([]); // Filtered players
   const [searchTerm, setSearchTerm] = useState(""); // Search term for player name
@@ -28,7 +28,7 @@ const SearchPlayers = () => {
   // Fix the API endpoint path
   useEffect(() => {
     const fetchPlayers = async () => {
-      if (!user || user.role !== 'club') {
+      if (!isAuthenticated || user.role !== 'club') {
         console.error('Only club users can access this page');
         return;
       }
@@ -49,7 +49,7 @@ const SearchPlayers = () => {
       }
     };
     fetchPlayers();
-  }, [user]);
+  }, [isAuthenticated, user]);
 
   // Filter players whenever a filter option changes
   useEffect(() => {
@@ -69,9 +69,6 @@ const SearchPlayers = () => {
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
     setShowPopup(true); // Show the popup
-    if (window.amplitude) {
-      window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
-    }
   };
 
   const handleSavePlayer = async (player) => {
@@ -85,21 +82,15 @@ const SearchPlayers = () => {
 
   const handleUnsavePlayer = async (player) => {
     try {
-      await api.delete(`/clubProfiles/unsave-player/${player._id}`);
+      await api.delete(`/api/clubProfiles/unsave-player/${player._id}`);
       setSavedPlayers(savedPlayers.filter(p => p._id !== player._id));
     } catch (error) {
       console.error("Error unsaving player:", error);
     }
   };
 
-  const handleContactPlayer = async (player) => {
-    try {
-      await api.post('/contactRequests', { playerId: player._id });
-      alert("Your contact request has been submitted. You will receive an email shortly.");
-    } catch (error) {
-      console.error("Error contacting player:", error);
-      alert("Failed to submit contact request. Please try again.");
-    }
+  const handleContactPlayer = (player) => {
+    alert(`Contacting ${player.name}...`);
   };
 
   const closePopup = () => {

@@ -5,25 +5,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      fetchUser();
     }
   }, [token]);
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('user');
-    }
-  }, [user]);
 
   const fetchUser = async () => {
     try {
@@ -38,10 +28,6 @@ export const AuthProvider = ({ children }) => {
       // Don't console.error here as 401 is expected when not logged in
     }
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const login = async (username, password) => {
     try {

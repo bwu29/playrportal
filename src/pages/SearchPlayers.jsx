@@ -82,15 +82,21 @@ const SearchPlayers = () => {
 
   const handleUnsavePlayer = async (player) => {
     try {
-      await api.delete(`/api/clubProfiles/unsave-player/${player._id}`);
+      await api.delete(`/clubProfiles/unsave-player/${player._id}`);
       setSavedPlayers(savedPlayers.filter(p => p._id !== player._id));
     } catch (error) {
       console.error("Error unsaving player:", error);
     }
   };
 
-  const handleContactPlayer = (player) => {
-    alert(`Contacting ${player.name}...`);
+  const handleContactPlayer = async (player) => {
+    try {
+      await api.post('/contactRequests', { playerId: player._id });
+      alert("Your contact request has been submitted. You will receive an email shortly.");
+    } catch (error) {
+      console.error("Error contacting player:", error);
+      alert("Failed to submit contact request. Please try again.");
+    }
   };
 
   const closePopup = () => {

@@ -49,8 +49,13 @@ const SavedPlayers = () => {
     }
   };
 
-  const handleContactPlayer = (player) => {
-    alert(`Contacting ${player.playerName}...`);
+  const handleContactPlayer = async (player) => {
+    try {
+      await api.post(`/clubProfiles/contact-player/${player._id}`);
+      alert(`Contact request sent to ${player.playerName}!`);
+    } catch (error) {
+      console.error("Failed to contact player", error);
+    }
   };
 
   const closePopup = () => {

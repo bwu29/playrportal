@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
@@ -10,6 +10,12 @@ import SavedPlayers from "./pages/SavedPlayers";
 import Opportunities from "./pages/Opportunities";
 
 const App = () => {
+  useEffect(() => {
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('App Loaded');
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <Router>

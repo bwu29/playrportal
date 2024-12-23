@@ -72,7 +72,7 @@ const SavedPlayers = () => {
 
   return (
     <div className="search-players">
-      <h1>Saved Players for {user?.club}</h1>
+      <h1>Saved Players</h1>
 
       {filteredPlayers.length === 0 ? (
         <p>No saved players yet.</p>
@@ -86,6 +86,7 @@ const SavedPlayers = () => {
                 <p>Positions: {player.positions.join(", ")}</p>
                 <p>Citizenship: {player.citizenship.join(", ")}</p>
                 <p>Availability: {player.availability}</p>
+                <p>Pro Experience: {player.proExperience} years</p>
                 <button onClick={() => handleViewDetails(player)}>View Details</button>
               </div>
               <div className="player-image">
@@ -124,6 +125,7 @@ const SavedPlayers = () => {
                 <p>Positions: {popupPlayer.positions.join(", ")}</p>
                 <p>Citizenship: {popupPlayer.citizenship.join(", ")}</p>
                 <p>Availability: {popupPlayer.availability}</p>
+                <p>Pro Experience: {popupPlayer.proExperience} years</p>
                 <p>Highlight Video: <a href={popupPlayer.highlightVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
                 <p>Full Match Video: <a href={popupPlayer.fullMatchVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
                 {popupPlayer.playerCV && (

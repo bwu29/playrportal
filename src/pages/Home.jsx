@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import SignOn from "../components/AuthPopup";
 import { useHistory } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 import api from '../utils/api'; // Import the API utility
 import Navbar from "../components/Navbar";
 import "../styles/Home.css";
@@ -11,16 +10,17 @@ const HomePage = () => {
   const [currentTab, setCurrentTab] = useState(""); // "players" or "clubs"
   const [email, setEmail] = useState(""); // State for email input
   const history = useHistory();
-  const { login } = useContext(AuthContext);
 
   useEffect(() => {
     if (window.amplitude) {
+      console.log('Logging Home Page Visited event...');
       window.amplitude.getInstance().logEvent('Home Page Visited');
+    } else {
+      console.error('Amplitude is not defined');
     }
   }, []);
 
   const handleLoginSuccess = (user) => {
-    login(user);
     history.push(`/${user.role}Profile`);
   };
 

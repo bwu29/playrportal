@@ -64,17 +64,34 @@ const SearchPlayers = () => {
       );
     });
     setFilteredPlayers(filtered);
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('Player Search', { searchTerm, birthYear, position, citizenship, availability, proExperience });
+    } else {
+      console.error("Amplitude not initialized.");
+    }
+    
+
   }, [searchTerm, birthYear, position, citizenship, availability, proExperience, players]);
 
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
     setShowPopup(true); // Show the popup
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
+    }
+   else {
+    console.error("Amplitude not initialized.");
+  }
+    
   };
 
   const handleSavePlayer = async (player) => {
     try {
       await api.post(`/clubProfiles/save-player/${player._id}`);
       setSavedPlayers([...savedPlayers, player]);
+      if (window.amplitude) {
+        window.amplitude.getInstance().logEvent('Save Player', { playerId: player._id });
+      }
     } catch (error) {
       console.error("Error saving player:", error);
     }
@@ -82,15 +99,27 @@ const SearchPlayers = () => {
 
   const handleUnsavePlayer = async (player) => {
     try {
-      await api.delete(`/api/clubProfiles/unsave-player/${player._id}`);
+      await api.delete(`/clubProfiles/unsave-player/${player._id}`);
       setSavedPlayers(savedPlayers.filter(p => p._id !== player._id));
+      if (window.amplitude) {
+        window.amplitude.getInstance().logEvent('Unsave Player', { playerId: player._id });
+      }
     } catch (error) {
       console.error("Error unsaving player:", error);
     }
   };
 
-  const handleContactPlayer = (player) => {
-    alert(`Contacting ${player.name}...`);
+  const handleContactPlayer = async (player) => {
+    try {
+      await api.post('/contactRequests', { playerId: player._id });
+      alert("Your contact request has been submitted. You will receive an email shortly.");
+      if (window.amplitude) {
+        window.amplitude.getInstance().logEvent('Contact Player', { playerId: player._id });
+      }
+    } catch (error) {
+      console.error("Error contacting player:", error);
+      alert("Failed to submit contact request. Please try again.");
+    }
   };
 
   const closePopup = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignOn from "../components/AuthPopup";
 import { useHistory } from "react-router-dom";
 import api from '../utils/api'; // Import the API utility
@@ -11,6 +11,12 @@ const HomePage = () => {
   const [email, setEmail] = useState(""); // State for email input
   const history = useHistory();
 
+  useEffect(() => {
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('Home Page Visited');
+    }
+  }, []);
+
   const handleLoginSuccess = (user) => {
     history.push(`/${user.role}Profile`);
   };
@@ -22,6 +28,7 @@ const HomePage = () => {
 
   return (
     <div>
+      <Navbar />
       <section id="hero-section">
         <div className="overview">
           <h1>A Database Connecting Clubs with Professional Female Footballers</h1>

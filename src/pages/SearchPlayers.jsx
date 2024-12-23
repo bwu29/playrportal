@@ -69,6 +69,9 @@ const SearchPlayers = () => {
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
     setShowPopup(true); // Show the popup
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
+    }
   };
 
   const handleSavePlayer = async (player) => {

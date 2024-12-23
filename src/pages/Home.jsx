@@ -28,7 +28,6 @@ const HomePage = () => {
 
   return (
     <div>
-      <Navbar />
       <section id="hero-section">
         <div className="overview">
           <h1>A Database Connecting Clubs with Professional Female Footballers</h1>

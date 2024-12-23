@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      fetchUser();
     }
   }, [token]);
 
@@ -28,6 +27,10 @@ export const AuthProvider = ({ children }) => {
       // Don't console.error here as 401 is expected when not logged in
     }
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const login = async (username, password) => {
     try {

@@ -11,7 +11,7 @@ import {
 } from "../constants/dropdownOptions";
 
 const SearchPlayers = () => {
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [players, setPlayers] = useState([]); // All players from the database
   const [filteredPlayers, setFilteredPlayers] = useState([]); // Filtered players
   const [searchTerm, setSearchTerm] = useState(""); // Search term for player name
@@ -28,7 +28,7 @@ const SearchPlayers = () => {
   // Fix the API endpoint path
   useEffect(() => {
     const fetchPlayers = async () => {
-      if (!isAuthenticated || user.role !== 'club') {
+      if (!user || user.role !== 'club') {
         console.error('Only club users can access this page');
         return;
       }
@@ -49,7 +49,7 @@ const SearchPlayers = () => {
       }
     };
     fetchPlayers();
-  }, [isAuthenticated, user]);
+  }, [user]);
 
   // Filter players whenever a filter option changes
   useEffect(() => {

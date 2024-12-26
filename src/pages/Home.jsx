@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import api from '../utils/api'; // Import the API utility
 import Navbar from "../components/Navbar";
 import "../styles/Home.css";
+import { logEvent } from "@amplitude/analytics-browser";
 
 const HomePage = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -12,11 +13,12 @@ const HomePage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if (window.amplitude) {
-      console.log('Logging Home Page Visited event...');
-      window.amplitude.getInstance().logEvent('Home Page Visited');
-    } else {
-      console.error('Amplitude is not defined');
+    console.log('Logging Home Page Visited event...');
+    try {
+      logEvent('Home Page Visited');
+      console.log('Amplitude event logged successfully');
+    } catch (error) {
+      console.error('Failed to log event:', error);
     }
   }, []);
 

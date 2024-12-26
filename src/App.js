@@ -8,21 +8,21 @@ import ClubProfile from "./pages/ClubProfile";
 import SearchPlayers from "./pages/SearchPlayers";
 import SavedPlayers from "./pages/SavedPlayers";
 import Opportunities from "./pages/Opportunities";
-import { init } from '@amplitude/analytics-browser';
+import { init, logEvent } from "@amplitude/analytics-browser";
 
-// Initialize Amplitude with your API key and defaultTracking option
-init('5536de7451587432e3c4a5b69028c1ba', {
+// Initialize Amplitude
+init("5536de7451587432e3c4a5b69028c1ba", {
   defaultTracking: true,
 });
 
 const App = () => {
   useEffect(() => {
-    if (window.amplitude) {
-      console.log('Logging App Loaded event...');
-      window.amplitude.getInstance().logEvent('App Loaded');
-      console.log('Amplitude event logged successfully');
-    } else {
-      console.error('Amplitude is not defined');
+    console.log("Logging App Loaded event...");
+    try {
+      logEvent("App Loaded");
+      console.log("Amplitude event logged successfully");
+    } catch (error) {
+      console.error("Failed to log event:", error);
     }
   }, []);
 

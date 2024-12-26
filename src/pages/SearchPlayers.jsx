@@ -66,11 +66,7 @@ const SearchPlayers = () => {
     setFilteredPlayers(filtered);
     if (window.amplitude) {
       window.amplitude.getInstance().logEvent('Player Search', { searchTerm, birthYear, position, citizenship, availability, proExperience });
-    } else {
-      console.error("Amplitude not initialized.");
     }
-    
-
   }, [searchTerm, birthYear, position, citizenship, availability, proExperience, players]);
 
   const handleViewDetails = (player) => {
@@ -79,10 +75,6 @@ const SearchPlayers = () => {
     if (window.amplitude) {
       window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
     }
-   else {
-    console.error("Amplitude not initialized.");
-  }
-    
   };
 
   const handleSavePlayer = async (player) => {

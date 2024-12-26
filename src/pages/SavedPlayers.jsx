@@ -34,6 +34,9 @@ const SavedPlayers = () => {
   const handleViewDetails = (player) => {
     setPopupPlayer(player);
     setShowPopup(true);
+    if (window.amplitude) {
+      window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
+    }
   };
 
   const handleUnsavePlayer = async (player) => {
@@ -42,7 +45,9 @@ const SavedPlayers = () => {
       const updatedPlayers = players.filter((savedPlayer) => savedPlayer._id !== player._id);
       setPlayers(updatedPlayers);
       setFilteredPlayers(updatedPlayers);
-
+      if (window.amplitude) {
+        window.amplitude.getInstance().logEvent('Unsave Player', { playerId: player._id });
+      }
       alert(`Player ${player.playerName} unsaved!`);
     } catch (error) {
       console.error("Failed to unsave player", error);
@@ -53,6 +58,9 @@ const SavedPlayers = () => {
     try {
       await api.post('/contactRequests', { playerId: player._id });
       alert("Your contact request has been submitted. You will receive an email shortly.");
+      if (window.amplitude) {
+        window.amplitude.getInstance().logEvent('Contact Player', { playerId: player._id });
+      }
     } catch (error) {
       console.error("Failed to contact player", error);
       alert("Failed to submit contact request. Please try again.");

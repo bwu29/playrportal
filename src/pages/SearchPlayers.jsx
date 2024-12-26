@@ -9,6 +9,7 @@ import {
   AVAILABILITY,
   PRO_EXPERIENCE,
 } from "../constants/dropdownOptions";
+import { logEvent } from "@amplitude/analytics-browser";
 
 const SearchPlayers = () => {
   const { user } = useContext(AuthContext);
@@ -24,6 +25,7 @@ const SearchPlayers = () => {
   const [savedPlayers, setSavedPlayers] = useState([]); // Track saved players
   const [showPopup, setShowPopup] = useState(false); // Popup visibility
   const [popupPlayer, setPopupPlayer] = useState(null); // Player details in popup
+  const [loading, setLoading] = useState(true); // Loading state
 
   // Fix the API endpoint path
   useEffect(() => {
@@ -46,6 +48,8 @@ const SearchPlayers = () => {
         }
       } catch (error) {
         console.error("Error fetching players:", error.response?.data || error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching players
       }
     };
     fetchPlayers();
@@ -64,16 +68,20 @@ const SearchPlayers = () => {
       );
     });
     setFilteredPlayers(filtered);
-    if (window.amplitude) {
-      window.amplitude.getInstance().logEvent('Player Search', { searchTerm, birthYear, position, citizenship, availability, proExperience });
+    try {
+      logEvent('Player Search', { searchTerm, birthYear, position, citizenship, availability, proExperience });
+    } catch (error) {
+      console.error('Failed to log event:', error);
     }
   }, [searchTerm, birthYear, position, citizenship, availability, proExperience, players]);
 
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
     setShowPopup(true); // Show the popup
-    if (window.amplitude) {
-      window.amplitude.getInstance().logEvent('View Player Details', { playerId: player._id });
+    try {
+      logEvent('View Player Details', { playerId: player._id });
+    } catch (error) {
+      console.error('Failed to log event:', error);
     }
   };
 
@@ -81,8 +89,10 @@ const SearchPlayers = () => {
     try {
       await api.post(`/clubProfiles/save-player/${player._id}`);
       setSavedPlayers([...savedPlayers, player]);
-      if (window.amplitude) {
-        window.amplitude.getInstance().logEvent('Save Player', { playerId: player._id });
+      try {
+        logEvent('Save Player', { playerId: player._id });
+      } catch (error) {
+        console.error('Failed to log event:', error);
       }
     } catch (error) {
       console.error("Error saving player:", error);
@@ -93,8 +103,10 @@ const SearchPlayers = () => {
     try {
       await api.delete(`/clubProfiles/unsave-player/${player._id}`);
       setSavedPlayers(savedPlayers.filter(p => p._id !== player._id));
-      if (window.amplitude) {
-        window.amplitude.getInstance().logEvent('Unsave Player', { playerId: player._id });
+      try {
+        logEvent('Unsave Player', { playerId: player._id });
+      } catch (error) {
+        console.error('Failed to log event:', error);
       }
     } catch (error) {
       console.error("Error unsaving player:", error);
@@ -105,8 +117,10 @@ const SearchPlayers = () => {
     try {
       await api.post('/contactRequests', { playerId: player._id });
       alert("Your contact request has been submitted. You will receive an email shortly.");
-      if (window.amplitude) {
-        window.amplitude.getInstance().logEvent('Contact Player', { playerId: player._id });
+      try {
+        logEvent('Contact Player', { playerId: player._id });
+      } catch (error) {
+        console.error('Failed to log event:', error);
       }
     } catch (error) {
       console.error("Error contacting player:", error);
@@ -192,33 +206,37 @@ const SearchPlayers = () => {
         </select>
         <button className="reset-filters text-button" onClick={clearFilters}>Clear Filters</button>
       </div>
-      <div className="player-grid">
-        {filteredPlayers.map((player, index) => (
-          <div key={index} className="player-card">
-            <div className="player-details">
-              <h3>{player.playerName}</h3> {/* Ensure player's name is displayed first */}
-              <p>Birth Year: {player.birthYear}</p>
-              <p>Positions: {player.positions.join(", ")}</p>
-              <p>Citizenship: {player.citizenship}</p>
-              <p>Availability: {player.availability}</p>
-              <p>Pro Experience: {player.proExperience} years</p>
-              <button onClick={() => handleViewDetails(player)}>View Details</button>
-            </div>
-            <div className="player-image">
-              <div className="image-placeholder">
-                <img
-                  src={getImageUrl(player)}
-                  alt={`${player.playerName || 'Player'} profile`}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "profilepic.jpg";
-                  }}
-                />
+      {loading ? (
+        <div className="loading-indicator">Loading...</div>
+      ) : (
+        <div className="player-grid">
+          {filteredPlayers.map((player, index) => (
+            <div key={index} className="player-card">
+              <div className="player-details">
+                <h3>{player.playerName}</h3> {/* Ensure player's name is displayed first */}
+                <p>Birth Year: {player.birthYear}</p>
+                <p>Positions: {player.positions.join(", ")}</p>
+                <p>Citizenship: {player.citizenship}</p>
+                <p>Availability: {player.availability}</p>
+                <p>Pro Experience: {player.proExperience} years</p>
+                <button onClick={() => handleViewDetails(player)}>View Details</button>
+              </div>
+              <div className="player-image">
+                <div className="image-placeholder">
+                  <img
+                    src={getImageUrl(player)}
+                    alt={`${player.playerName || 'Player'} profile`}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "profilepic.jpg";
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Popup Modal for Player Details */}
       {showPopup && popupPlayer && (

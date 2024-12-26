@@ -15,7 +15,7 @@ init("5536de7451587432e3c4a5b69028c1ba", {
   defaultTracking: true,
 });
 
-const App = () => {
+const AppContent = () => {
   const { loading, user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -33,21 +33,27 @@ const App = () => {
   }
 
   return (
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/playerProfile" component={PlayerProfile} />
+        <Route path="/clubProfile" component={ClubProfile} />
+        <Route path="/search-players" component={SearchPlayers} />
+        <Route path="/saved-players" component={SavedPlayers} />
+        <Route path="/opportunities" component={Opportunities} />
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+
+const App = () => {
+  return (
     <AuthProvider>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/playerProfile" component={PlayerProfile} />
-          <Route path="/clubProfile" component={ClubProfile} />
-          <Route path="/search-players" component={SearchPlayers} />
-          <Route path="/saved-players" component={SavedPlayers} />
-          <Route path="/opportunities" component={Opportunities} />
-          <Route path="*">
-            <Redirect to="/" />
-          </Route>
-        </Switch>
-      </Router>
+      <AppContent />
     </AuthProvider>
   );
 };

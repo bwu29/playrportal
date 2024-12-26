@@ -4,91 +4,53 @@ import api from '../utils/api';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem('authToken');
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.get('/auth/me')
+        .then(response => {
+          setUser(response.data);
+        })
+        .catch(error => {
+          console.error('Failed to re-authenticate user:', error);
+          localStorage.removeItem('authToken');
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
-  }, [token]);
-
-  const fetchUser = async () => {
-    try {
-      const res = await api.get('/auth/user');
-      if (res.data) {
-        setUser(res.data);
-        setIsAuthenticated(true);
-      }
-    } catch (err) {
-      setUser(null);
-      setIsAuthenticated(false);
-      // Don't console.error here as 401 is expected when not logged in
-    }
-  };
-
-  useEffect(() => {
-    fetchUser();
   }, []);
 
-  const login = async (username, password) => {
-    try {
-      const response = await api.post('/auth/login', { username, password });
-      const { token, user } = response.data;
-      
-      localStorage.setItem('token', token);
-      setToken(token);
-      setUser(user);
-      setIsAuthenticated(true);
-      
-      return { success: true, role: user.role };
-    } catch (error) {
-      console.error("Login failed:", error);
-      return { success: false, message: "Invalid credentials" };
-    }
+  const login = async (email, password) => {
+    const response = await api.post('/auth/login', { email, password });
+    const { token, user } = response.data;
+    localStorage.setItem('authToken', token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setUser(user);
   };
 
-  const logout = async () => {
-    try {
-      await api.post("/auth/logout");
-      localStorage.removeItem('token');
-      setToken(null);
-      setUser(null);
-      setIsAuthenticated(false);
-      delete api.defaults.headers.common['Authorization'];
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const register = async (email, password) => {
+    const response = await api.post('/auth/register', { email, password });
+    const { token, user } = response.data;
+    localStorage.setItem('authToken', token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    setUser(user);
   };
 
-  const register = async (userData) => {
-    try {
-      const response = await api.post("/auth/register", userData);
-      
-      if (response.data.isAuthenticated) {
-        const { token, user } = response.data;
-        localStorage.setItem('token', token);
-        setToken(token);
-        setUser(user);
-        setIsAuthenticated(true);
-        return { 
-          success: true, 
-          user: response.data.user 
-        };
-      }
-      
-      return response.data;
-    } catch (error) {
-      return { 
-        success: false, 
-        message: error.response?.data?.message || "Registration failed" 
-      };
-    }
+  const logout = () => {
+    localStorage.removeItem('authToken');
+    delete api.defaults.headers.common['Authorization'];
+    setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, setUser, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

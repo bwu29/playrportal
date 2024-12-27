@@ -288,6 +288,14 @@ button:active {
   cursor: pointer;
 }
 
+.profile-actions button {
+  margin-right: 10px; /* Add margin to the right of each button */
+}
+
+.cancel-button {
+  margin-left: 20px; /* Increase space between save and cancel buttons */
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .profile-container {

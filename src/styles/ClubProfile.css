@@ -96,6 +96,14 @@ html, body {
   z-index: 1000; /* Ensure it appears above other elements */
 }
 
+.profile-actions button {
+  margin-right: 10px; /* Add margin to the right of each button */
+}
+
+.cancel-button {
+  margin-left: 20px; /* Increase space between save and cancel buttons */
+}
+
 /* Responsive layout */
 @media (max-width: 768px) {
   .club-profile {

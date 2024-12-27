@@ -8,6 +8,7 @@ import ClubProfile from "./pages/ClubProfile";
 import SearchPlayers from "./pages/SearchPlayers";
 import SavedPlayers from "./pages/SavedPlayers";
 import Opportunities from "./pages/Opportunities";
+import Footer from "./components/Footer"; // Import Footer component
 import { init, logEvent } from "@amplitude/analytics-browser";
 
 // Initialize Amplitude
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/saved-players" component={SavedPlayers} />
           <Route path="/opportunities" component={Opportunities} />
         </Switch>
+        <Footer /> {/* Add Footer component */}
       </AuthProvider>
     </Router>
   );

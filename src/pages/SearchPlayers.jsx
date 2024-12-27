@@ -33,7 +33,6 @@ const SearchPlayers = () => {
   useEffect(() => {
     const fetchPlayers = async () => {
       if (!isAuthenticated || user.role !== 'club') {
-        console.error('Only club users can access this page');
         return <Redirect to="/clubProfile" />;
       }
 

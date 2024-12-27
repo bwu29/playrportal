@@ -1,5 +1,13 @@
+/* Global Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
+}
+
 .club-profile {
-    max-width: 800px;
+    max-width: 1000px; /* Make it wider */
     margin: 20px auto;
     padding: 20px;
     background: #fff;
@@ -9,6 +17,7 @@
     flex-direction: column;
     align-items: center;
     flex: 1;
+    min-height: 400px; /* Make it shorter */
 }
 
 .club-profile-container {
@@ -16,6 +25,7 @@
     gap: 20px;
     flex-direction: column;
     min-height: 100vh;
+    width: 100%; /* Ensure it takes up the full width */
 }
 
 .club-details-section {
@@ -82,6 +92,38 @@
     justify-content: center;
     align-items: center;
     z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: auto; /* Push buttons to the bottom */
+}
+
+.profile-actions button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.profile-actions .edit-button {
+    background-color: #007bff;
+}
+
+.profile-actions .save-button {
+    background-color: #28a745;
+}
+
+.profile-actions .cancel-button {
+    background-color: #dc3545;
+}
+
+.profile-actions button:hover {
+    opacity: 0.8;
 }
 
 /* Responsive layout */

@@ -82,16 +82,16 @@ const ClubProfile = () => {
   };
 
   return (
-    <div className="club-profile-container">
+    <>
       {showAuthPopup && (
         <AuthPopup onLoginSuccess={handleLoginSuccess} defaultRole="club" />
       )}
 
-      {!showAuthPopup && (
-        <>
+      {!showAuthPopup && isAuthenticated && (
+        <div className="club-profile-container">
           <h1>Club Profile</h1>
 
-          <div className="club-profile-container">
+          <div className="club-profile">
             {/* Club Details Section */}
             <div className="club-details-section">
               <div className="field">
@@ -228,9 +228,9 @@ const ClubProfile = () => {
               </button>
             )}
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

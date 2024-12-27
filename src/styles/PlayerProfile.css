@@ -13,24 +13,31 @@ html, body {
 .player-profile-container {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center the profile content */
   min-height: 100vh;
-  width: 100%; /* Ensure it takes up the full width */
+  width: 100%;
+  padding: 20px; /* Add padding for better spacing */
+  box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 .player-profile {
   max-width: 800px;
-  margin: 20px auto;
+  width: 100%; /* Ensure it takes up the full width */
+  margin: 20px 0; /* Adjust margin for better spacing */
   padding: 20px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the profile content */
 }
 
 .profile-container {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap; /* Allow wrapping for smaller screens */
+  flex-direction: column; /* Stack items vertically */
+  gap: 20px; /* Add space between items */
+  width: 100%; /* Ensure it takes up the full width */
 }
 
 .profile-picture-section {

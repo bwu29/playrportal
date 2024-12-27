@@ -1,0 +1,28 @@
+/* Ensure the root and body take up the full height */
+html, body {
+    height: 100%; /* Full viewport height */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Main container setup */
+  #app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container spans the full viewport height */
+  }
+  
+  /* Content area setup */
+  .content {
+    flex: 1; /* Allow the content area to expand and fill available space */
+  }
+  
+  /* Footer styling */
+  footer {
+    margin-top: auto; /* Push the footer to the bottom of the container */
+    background-color: #333; /* Example footer styling */
+    color: white;
+    text-align: center;
+    padding: 1rem;
+  }
+  

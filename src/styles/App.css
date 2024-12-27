@@ -1,23 +1,14 @@
-/* Ensure the root and body take up the full height */
+/* Ensure the html and body take up the full height of the viewport */
 html, body {
-    height: 100%; /* Full viewport height */
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+    height: 100%; /* Makes sure the body is as tall as the viewport */
+    margin: 0; /* Remove default margin */
   }
   
-  /* Main container setup */
-  #app-container {
-    display: flex;
-    flex-direction: column;
-    flex: 1; /* Allow the container to grow and take up available space */
-    min-height: 100vh; /* Ensure the container spans the full viewport height */
-  }
-  
-  /* Content area setup */
-  .content {
-    flex: 1; /* Allow the content area to expand and fill available space */
+  /* Make the root div fill the entire height */
+  #root {
+    height: 100%; /* Ensures root fills the entire body */
+    display: flex; /* Optionally, use flexbox if you want to manage layout */
+    flex-direction: column; /* Ensures content stretches vertically */
   }
   
   /* Footer styling */

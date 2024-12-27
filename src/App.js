@@ -1,6 +1,6 @@
-import React, { useEffect, useContext } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import { AuthProvider, AuthContext } from "./context/AuthContext";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import PlayerProfile from "./pages/PlayerProfile";
@@ -15,9 +15,7 @@ init("5536de7451587432e3c4a5b69028c1ba", {
   defaultTracking: true,
 });
 
-const AppContent = () => {
-  const { loading, user } = useContext(AuthContext);
-
+const App = () => {
   useEffect(() => {
     console.log("Logging App Loaded event...");
     try {
@@ -28,33 +26,20 @@ const AppContent = () => {
     }
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <Router>
-      <Navbar />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/playerProfile" component={PlayerProfile} />
-        <Route path="/clubProfile" component={ClubProfile} />
-        <Route path="/search-players" component={SearchPlayers} />
-        <Route path="/saved-players" component={SavedPlayers} />
-        <Route path="/opportunities" component={Opportunities} />
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
+      <AuthProvider>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/playerProfile" component={PlayerProfile} />
+          <Route path="/clubProfile" component={ClubProfile} />
+          <Route path="/search-players" component={SearchPlayers} />
+          <Route path="/saved-players" component={SavedPlayers} />
+          <Route path="/opportunities" component={Opportunities} />
+        </Switch>
+      </AuthProvider>
     </Router>
-  );
-};
-
-const App = () => {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
   );
 };
 

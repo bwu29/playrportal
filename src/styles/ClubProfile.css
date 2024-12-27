@@ -5,30 +5,85 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .club-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.club-profile-container {
     display: flex;
     gap: 20px;
-  }
-  
-  .club-details-section {
+}
+
+.club-details-section {
     flex: 1;
-  }
-  
-  .field {
+}
+
+.field {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
-  }
-  
-  .field label {
+}
+
+.field label {
     font-weight: bold;
     margin-right: 10px;
-  }
-  
-  .field span,
-  .field input {
+}
+
+.field span,
+.field input {
     flex: 1;
-  }
-  
+}
+
+.club-details {
+    width: 100%;
+    max-width: 800px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.club-details h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.club-details p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.club-details button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.club-details button:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .club-details {
+        width: 90%;
+    }
+
+    .club-details h2 {
+        font-size: 1.5rem;
+    }
+
+    .club-details p {
+        font-size: 0.9rem;
+    }
+
+    .club-details button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}

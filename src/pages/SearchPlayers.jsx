@@ -12,7 +12,7 @@ import {
 import { logEvent } from "@amplitude/analytics-browser";
 
 const SearchPlayers = () => {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [players, setPlayers] = useState([]); // All players from the database
   const [filteredPlayers, setFilteredPlayers] = useState([]); // Filtered players
   const [searchTerm, setSearchTerm] = useState(""); // Search term for player name
@@ -30,7 +30,7 @@ const SearchPlayers = () => {
   // Fix the API endpoint path
   useEffect(() => {
     const fetchPlayers = async () => {
-      if (!user || user.role !== 'club') {
+      if (!isAuthenticated || user.role !== 'club') {
         console.error('Only club users can access this page');
         return;
       }
@@ -53,7 +53,7 @@ const SearchPlayers = () => {
       }
     };
     fetchPlayers();
-  }, [user]);
+  }, [isAuthenticated, user]);
 
   // Filter players whenever a filter option changes
   useEffect(() => {
@@ -269,7 +269,7 @@ const SearchPlayers = () => {
                 <button onClick={() => handleContactPlayer(popupPlayer)} style={{ marginRight: '10px' }}>
                   Contact Player
                 </button>
-                {savedPlayers.includes(popupPlayer) ? (
+                {savedPlayers.some(p => p._id === popupPlayer._id) ? (
                   <button onClick={() => handleUnsavePlayer(popupPlayer)} className="unsave-btn">
                     Unsave Player
                   </button>

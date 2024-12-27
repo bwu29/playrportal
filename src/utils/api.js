@@ -3,21 +3,16 @@ import axios from 'axios';
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: isDevelopment ? 'http://localhost:5000/api' : 'https://playrportal-backend-7b03af3bdfa6.herokuapp.com/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-const token = localStorage.getItem('authToken');
-if (token) {
-  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}
-
 // Add request interceptor to always include token
 api.interceptors.request.use(config => {
-  const token = localStorage.getItem('authToken');
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

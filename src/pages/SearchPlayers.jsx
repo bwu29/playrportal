@@ -10,6 +10,7 @@ import {
   PRO_EXPERIENCE,
 } from "../constants/dropdownOptions";
 import { logEvent } from "@amplitude/analytics-browser";
+import { Redirect } from 'react-router-dom'; // Import Redirect
 
 const SearchPlayers = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -54,6 +55,11 @@ const SearchPlayers = () => {
     };
     fetchPlayers();
   }, [isAuthenticated, user]);
+
+  // Redirect to club profile if not authenticated
+  if (!isAuthenticated) {
+    return <Redirect to="/clubProfile" />;
+  }
 
   // Filter players whenever a filter option changes
   useEffect(() => {

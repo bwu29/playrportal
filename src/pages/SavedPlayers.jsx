@@ -3,8 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import api from '../utils/api';
 import "../styles/SearchPlayers.css";
 import { logEvent } from "@amplitude/analytics-browser";
-import Footer from '../components/Footer';
 import '../styles/SavedPlayers.css';
+import { Redirect } from 'react-router-dom'; // Import Redirect
 
 const SavedPlayers = () => {
   const [players, setPlayers] = useState([]);
@@ -12,7 +12,7 @@ const SavedPlayers = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPlayer, setPopupPlayer] = useState(null);
 
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   useEffect(() => {
     if (user && user.id) {
@@ -33,6 +33,11 @@ const SavedPlayers = () => {
         });
     }
   }, [user]);
+
+  // Redirect to club profile if not authenticated
+  if (!isAuthenticated) {
+    return <Redirect to="/clubProfile" />;
+  }
 
   const handleViewDetails = (player) => {
     setPopupPlayer(player);

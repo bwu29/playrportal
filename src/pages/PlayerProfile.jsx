@@ -223,9 +223,7 @@ const PlayerProfile = () => {
   return (
     <div className="player-profile-container">
       {showAuthPopup && (
-        
           <AuthPopup onLoginSuccess={handleLoginSuccess} defaultRole="player" />
-       
       )}
       {!showAuthPopup && (
         <div className="player-profile">

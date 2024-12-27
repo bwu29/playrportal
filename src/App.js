@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/saved-players" component={SavedPlayers} />
           <Route path="/opportunities" component={Opportunities} />
         </Switch>
-        <Footer /> {/* Add Footer component */}
+        <Footer /> 
       </AuthProvider>
     </Router>
   );

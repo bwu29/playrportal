@@ -30,16 +30,18 @@
 }
 
 .reset-filters {
-    padding: 8px 16px;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: 1rem;
 }
 
 .reset-filters:hover {
-    background-color: #c82333;
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 .player-grid {
@@ -196,7 +198,6 @@ body, html {
   flex: 1; /* Allow the content to grow and take up available space */
 }
 
-/* Remove sticky footer styling */
 footer {
-  /* flex-shrink: 0; */
+  margin-top: auto; /* Push the footer to the bottom */
 }

@@ -10,15 +10,16 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const history = useHistory();
   const location = useLocation();
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       fetchUser();
     } else {
-      history.push('/'); // Redirect to homepage if no token
+      debounceRedirect('/');
     }
-  }, [token, history]);
+  }, [token]);
 
   const fetchUser = async () => {
     try {
@@ -32,24 +33,32 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       if (err.response && err.response.status === 401) {
         console.error("Session expired or user not authenticated");
-        history.push('/'); // Redirect to homepage
+        debounceRedirect('/');
       }
     }
   };
 
   useEffect(() => {
     if (!isAuthenticated) {
-      history.push('/'); // Redirect to homepage if not authenticated
+      debounceRedirect('/');
     } else if (user) {
       if (user.role === 'club') {
         if (location.pathname === '/search-players' || location.pathname === '/saved-players') {
-          history.push('/clubProfile');
+          debounceRedirect('/clubProfile');
         }
       } else if (user.role === 'player') {
-        history.push('/playerProfile');
+        debounceRedirect('/playerProfile');
       }
     }
-  }, [isAuthenticated, user, history, location]);
+  }, [isAuthenticated, user, location]);
+
+  const debounceRedirect = (path) => {
+    if (!redirecting) {
+      setRedirecting(true);
+      history.push(path);
+      setTimeout(() => setRedirecting(false), 1000); // 1 second debounce
+    }
+  };
 
   const login = async (username, password) => {
     try {
@@ -76,7 +85,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
       delete api.defaults.headers.common['Authorization'];
-      history.push('/'); // Redirect to homepage after logout
+      debounceRedirect('/');
     } catch (error) {
       console.error("Logout failed:", error);
     }

@@ -12,6 +12,7 @@ import {
 import { logEvent } from "@amplitude/analytics-browser";
 import { Redirect } from 'react-router-dom'; // Import Redirect
 
+
 const SearchPlayers = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [players, setPlayers] = useState([]); // All players from the database
@@ -33,7 +34,7 @@ const SearchPlayers = () => {
     const fetchPlayers = async () => {
       if (!isAuthenticated || user.role !== 'club') {
         console.error('Only club users can access this page');
-        return;
+        return <Redirect to="/clubProfile" />;
       }
 
       try {
@@ -55,11 +56,6 @@ const SearchPlayers = () => {
     };
     fetchPlayers();
   }, [isAuthenticated, user]);
-
-  // Redirect to club profile if not authenticated
-  if (!isAuthenticated) {
-    return <Redirect to="/clubProfile" />;
-  }
 
   // Filter players whenever a filter option changes
   useEffect(() => {

@@ -267,8 +267,12 @@ const SearchPlayers = () => {
                 <p>Citizenship: {popupPlayer.citizenship}</p>
                 <p>Availability: {popupPlayer.availability}</p>
                 <p>Pro Experience: {popupPlayer.proExperience} years</p>
-                <p>Highlight Video: <a href={popupPlayer.highlightVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
-                <p>Full Match Video: <a href={popupPlayer.fullMatchVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                {popupPlayer.highlightVideo && (
+                  <p>Highlight Video: <a href={popupPlayer.highlightVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                )}
+                {popupPlayer.fullMatchVideo && (
+                  <p>Full Match Video: <a href={popupPlayer.fullMatchVideo} target="_blank" rel="noopener noreferrer">Watch</a></p>
+                )}
                 {popupPlayer.playerCV && (
                   <p>
                     Player CV: <a href={getCVLink(popupPlayer.playerCV)} download="playerCV.pdf">Download CV</a>

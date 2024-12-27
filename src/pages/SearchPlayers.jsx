@@ -10,8 +10,7 @@ import {
   PRO_EXPERIENCE,
 } from "../constants/dropdownOptions";
 import { logEvent } from "@amplitude/analytics-browser";
-import { Redirect } from 'react-router-dom'; // Import Redirect
-
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const SearchPlayers = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -33,7 +32,9 @@ const SearchPlayers = () => {
   useEffect(() => {
     const fetchPlayers = async () => {
       if (!isAuthenticated || user.role !== 'club') {
-        return <Redirect to="/clubProfile" />;
+        
+        console.error('Only club users can access this page');
+        return;
       }
 
       try {
@@ -56,6 +57,7 @@ const SearchPlayers = () => {
     fetchPlayers();
   }, [isAuthenticated, user]);
 
+  
   // Filter players whenever a filter option changes
   useEffect(() => {
     const filtered = players.filter((player) => {
@@ -76,6 +78,11 @@ const SearchPlayers = () => {
     }
   }, [searchTerm, birthYear, position, citizenship, availability, proExperience, players]);
 
+  
+  if (!isAuthenticated) {
+    return <Redirect to="/clubProfile" />;
+  }
+  
   const handleViewDetails = (player) => {
     setPopupPlayer(player); // Set player for the popup
     setShowPopup(true); // Show the popup

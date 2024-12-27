@@ -165,18 +165,6 @@ button:hover {
     cursor: pointer;
 }
 
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f8f9fa;
-    padding: 10px 0;
-    text-align: center;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    margin: 0; /* Remove any default margins */
-}
-
 /* Responsive layout */
 @media (max-width: 768px) {
     .player-grid {
@@ -190,4 +178,25 @@ button:hover {
     .modal-content {
         flex-direction: column; /* Stack content vertically on small screens */
     }
+}
+
+body, html {
+  height: 100%; /* Ensure the body and html take up the full height */
+  margin: 0;
+  padding: 0;
+}
+
+.saved-players-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the container takes up the full height */
+}
+
+.content {
+  flex: 1; /* Allow the content to grow and take up available space */
+}
+
+/* Remove sticky footer styling */
+footer {
+  /* flex-shrink: 0; */
 }

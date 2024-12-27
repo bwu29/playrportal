@@ -206,27 +206,27 @@ const ClubProfile = () => {
                 )}
               </div>
             </div>
-          </div>
 
-          <div className="profile-actions">
-            {message && <p className={message.includes('Error') ? 'error-message' : 'success-message'}>{message}</p>}
-            
-            <button 
-              onClick={handleEditToggle}
-              disabled={isSaving}
-              className={isEditing ? 'save-button' : 'edit-button'}
-            >
-              {isSaving ? 'Saving...' : isEditing ? 'Save Profile' : 'Edit Profile'}
-            </button>
-            
-            {isEditing && (
+            <div className="profile-actions">
+              {message && <p className={message.includes('Error') ? 'error-message' : 'success-message'}>{message}</p>}
+              
               <button 
-                onClick={() => setIsEditing(false)}
-                className="cancel-button"
+                onClick={handleEditToggle}
+                disabled={isSaving}
+                className={isEditing ? 'save-button' : 'edit-button'}
               >
-                Cancel
+                {isSaving ? 'Saving...' : isEditing ? 'Save Profile' : 'Edit Profile'}
               </button>
-            )}
+              
+              {isEditing && (
+                <button 
+                  onClick={() => setIsEditing(false)}
+                  className="cancel-button"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
           </div>
         </>
       )}

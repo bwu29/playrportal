@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import api from '../utils/api';
 
 export const AuthContext = createContext();
@@ -8,16 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const history = useHistory();
-  const location = useLocation();
-  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
     if (token) {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      fetchUser();
-    } else {
-      debounceRedirect('/');
     }
   }, [token]);
 
@@ -31,34 +24,13 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       setUser(null);
       setIsAuthenticated(false);
-      if (err.response && err.response.status === 401) {
-        console.error("Session expired or user not authenticated");
-        debounceRedirect('/');
-      }
+      // Don't console.error here as 401 is expected when not logged in
     }
   };
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      debounceRedirect('/');
-    } else if (user) {
-      if (user.role === 'club') {
-        if (location.pathname === '/search-players' || location.pathname === '/saved-players') {
-          debounceRedirect('/clubProfile');
-        }
-      } else if (user.role === 'player') {
-        debounceRedirect('/playerProfile');
-      }
-    }
-  }, [isAuthenticated, user, location]);
-
-  const debounceRedirect = (path) => {
-    if (!redirecting) {
-      setRedirecting(true);
-      history.push(path);
-      setTimeout(() => setRedirecting(false), 1000); // 1 second debounce
-    }
-  };
+    fetchUser();
+  }, []);
 
   const login = async (username, password) => {
     try {
@@ -85,7 +57,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setIsAuthenticated(false);
       delete api.defaults.headers.common['Authorization'];
-      debounceRedirect('/');
     } catch (error) {
       console.error("Logout failed:", error);
     }

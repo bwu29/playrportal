@@ -69,20 +69,20 @@ html, body {
 
 /* Info Section */
 .info-section {
-    background-color: #f8f9fa; 
     display: flex;
     justify-content: space-around;
-    padding: 50px 20px;
-    flex-wrap: wrap; /* Allow for responsive layout */
+    flex-wrap: wrap;
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in the element's total width and height */
     width: 100%; /* Ensure it takes up the full width */
 }
 
 .info-box {
-    background-color: #f1f1f1;
+    flex: 1 1 300px; /* Allow boxes to grow and shrink, with a minimum width */
+    margin: 10px;
     padding: 20px;
+    background: #fff;
     border-radius: 10px;
-    width: 40%;
-    max-width: 400px; /* Max width for cards */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center; /* Center text inside the card */
     display: flex;
@@ -173,11 +173,13 @@ html, body {
     }
 
     .info-section {
-        flex-direction: column; /* Stack the info boxes vertically on small screens */
+        flex-direction: column;
+        align-items: center; /* Center the info-boxes */
     }
 
     .info-box {
-        width: 80%; /* Allow for responsive width of the info box */
+        width: 100%; /* Ensure it takes up the full width on mobile */
+        max-width: 400px; /* Optional: Set a max-width for better appearance */
         margin-bottom: 20px; /* Add spacing between the cards */
     }
 }

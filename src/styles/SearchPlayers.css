@@ -39,7 +39,11 @@
     margin-left: 10px; /* Add margin to separate from other filters */
 }
 
-
+.loading-indicator {
+    font-size: 18px;
+    color: #007bff;
+    margin-top: 20px;
+}
 
 .player-grid {
     display: grid;

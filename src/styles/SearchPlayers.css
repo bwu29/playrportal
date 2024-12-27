@@ -187,3 +187,25 @@ button:hover {
         flex-direction: column; /* Stack content vertically on small screens */
     }
 }
+
+body, html {
+  height: 100%; /* Ensure the body and html take up the full height */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the container takes up the full height */
+}
+
+.content {
+  flex: 1; /* Allow the content to grow and take up available space */
+}
+
+footer {
+  margin-top: auto; /* Push the footer to the bottom */
+}

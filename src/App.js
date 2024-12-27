@@ -32,6 +32,7 @@ const App = () => {
     <Router>
       <AuthProvider>
           <Navbar />
+          <div class= 'content'>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/playerProfile" component={PlayerProfile} />
@@ -40,6 +41,7 @@ const App = () => {
               <Route path="/saved-players" component={SavedPlayers} />
               <Route path="/opportunities" component={Opportunities} />
             </Switch>
+          </div>
           <Footer /> {/* Add Footer component */}
       </AuthProvider>
     </Router>

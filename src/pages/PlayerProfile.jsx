@@ -221,15 +221,14 @@ const PlayerProfile = () => {
   };
 
   return (
-    <div className={`player-profile ${showAuthPopup ? "popup-visible" : ""}`}>
+    <div className="player-profile-container">
       {showAuthPopup && (
-        <div className="popup-overlay">
+        
           <AuthPopup onLoginSuccess={handleLoginSuccess} defaultRole="player" />
-        </div>
+       
       )}
-
       {!showAuthPopup && (
-        <>
+        <div className="player-profile">
           <div className="profile-header">
             <h2>Increase your visibility, allowing clubs to search by profile</h2>
           </div>
@@ -479,7 +478,7 @@ const PlayerProfile = () => {
               </button>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

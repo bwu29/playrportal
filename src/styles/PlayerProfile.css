@@ -1,5 +1,20 @@
+/* Global Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  width: 100%;
+}
+
 .profile-header {
   padding-bottom: 4vh;
+}
+
+.player-profile-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%; /* Ensure it takes up the full width */
 }
 
 .player-profile {
@@ -9,6 +24,7 @@
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
 
 .profile-container {
@@ -61,10 +77,6 @@
 .field input,
 .field a {
   flex: 1;
-}
-
-.blurred {
-  display: none; /* Hide all content when popup is shown */
 }
 
 /* Container */
@@ -238,6 +250,35 @@ button:active {
 .field .react-select__control {
   width: 100%;
   min-width: 0; /* Adjust this value as needed */
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.auth-popup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+}
+
+.auth-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 /* Responsive Styles */

@@ -1,6 +1,7 @@
 .navbar {
   background-color: #333;
   padding: 10px 20px;
+  z-index: 2000;
 }
 
 .navbar-container {

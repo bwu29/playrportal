@@ -30,16 +30,20 @@ const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/playerProfile" component={PlayerProfile} />
-          <Route path="/clubProfile" component={ClubProfile} />
-          <Route path="/search-players" component={SearchPlayers} />
-          <Route path="/saved-players" component={SavedPlayers} />
-          <Route path="/opportunities" component={Opportunities} />
-        </Switch>
-        <Footer /> 
+        <div className="app-container">
+          <Navbar />
+          <div className="main-content">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/playerProfile" component={PlayerProfile} />
+              <Route path="/clubProfile" component={ClubProfile} />
+              <Route path="/search-players" component={SearchPlayers} />
+              <Route path="/saved-players" component={SavedPlayers} />
+              <Route path="/opportunities" component={Opportunities} />
+            </Switch>
+          </div>
+          <Footer /> {/* Add Footer component */}
+        </div>
       </AuthProvider>
     </Router>
   );

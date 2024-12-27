@@ -1,26 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SignOn from "../components/AuthPopup";
 import { useHistory } from "react-router-dom";
 import api from '../utils/api'; // Import the API utility
 import Navbar from "../components/Navbar";
 import "../styles/Home.css";
-import { logEvent } from "@amplitude/analytics-browser";
 
 const HomePage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [currentTab, setCurrentTab] = useState(""); // "players" or "clubs"
   const [email, setEmail] = useState(""); // State for email input
   const history = useHistory();
-
-  useEffect(() => {
-    console.log('Logging Home Page Visited event...');
-    try {
-      logEvent('Home Page Visited');
-      console.log('Amplitude event logged successfully');
-    } catch (error) {
-      console.error('Failed to log event:', error);
-    }
-  }, []);
 
   const handleLoginSuccess = (user) => {
     history.push(`/${user.role}Profile`);
@@ -59,7 +48,7 @@ const HomePage = () => {
             <li>Create your player profile</li>
             <li>Be seen by 100s of professional Clubs</li>
             <li>Get contacted directly by interested teams</li>
-            <li>Pursue your playing opportunity with no middleman or...</li>
+            <li>Pursue your playing opportunity with no middleman</li>
             <li>Utilize our trusted agent network</li>
           </ul>
           <button

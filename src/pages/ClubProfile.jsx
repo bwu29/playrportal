@@ -82,7 +82,7 @@ const ClubProfile = () => {
   };
 
   return (
-    <div className="club-profile">
+    <div className="club-profile-container">
       {showAuthPopup && (
         <AuthPopup onLoginSuccess={handleLoginSuccess} defaultRole="club" />
       )}

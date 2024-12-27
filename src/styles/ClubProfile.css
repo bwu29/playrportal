@@ -8,11 +8,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
 
 .club-profile-container {
     display: flex;
     gap: 20px;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .club-details-section {
@@ -66,6 +69,19 @@
 
 .club-details button:hover {
     background-color: #0056b3;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it appears above other elements */
 }
 
 /* Responsive layout */

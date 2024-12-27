@@ -16,7 +16,7 @@ const SavedPlayers = () => {
     if (user && user.id) {
       // Fetch saved players from the backend API
       api
-        .get(`/api/clubProfiles/savedPlayers`)
+        .get(`/clubProfiles/savedPlayers`)
         .then((response) => {
           console.log("API Response:", response); // Log the API response
           const clubSavedPlayers = response.data;

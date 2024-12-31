@@ -27,6 +27,8 @@ const SearchPlayers = () => {
   const [showPopup, setShowPopup] = useState(false); // Popup visibility
   const [popupPlayer, setPopupPlayer] = useState(null); // Player details in popup
   const [loading, setLoading] = useState(true); // Loading state
+  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
+  const playersPerPage = 20; // Number of players per page
 
   // Fix the API endpoint path
   useEffect(() => {
@@ -162,6 +164,13 @@ const SearchPlayers = () => {
     setFilteredPlayers(players);
   };
 
+  // Pagination logic
+  const indexOfLastPlayer = currentPage * playersPerPage;
+  const indexOfFirstPlayer = indexOfLastPlayer - playersPerPage;
+  const currentPlayers = filteredPlayers.slice(indexOfFirstPlayer, indexOfLastPlayer);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="search-players">
       <h1>Search Players</h1>
@@ -218,7 +227,7 @@ const SearchPlayers = () => {
         <div className="loading-indicator">Loading...</div>
       ) : (
         <div className="player-grid">
-          {filteredPlayers.map((player, index) => (
+          {currentPlayers.map((player, index) => (
             <div key={index} className="player-card">
               <div className="player-details">
                 <h3>{player.playerName}</h3> {/* Ensure player's name is displayed first */}
@@ -245,6 +254,15 @@ const SearchPlayers = () => {
           ))}
         </div>
       )}
+
+      {/* Pagination */}
+      <div className="pagination">
+        {Array.from({ length: Math.ceil(filteredPlayers.length / playersPerPage) }, (_, index) => (
+          <button key={index + 1} onClick={() => paginate(index + 1)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
 
       {/* Popup Modal for Player Details */}
       {showPopup && popupPlayer && (

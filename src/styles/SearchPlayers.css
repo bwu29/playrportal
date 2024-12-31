@@ -180,7 +180,33 @@ button:hover {
     }
 
     .filters {
-        justify-content: space-evenly;
+        flex-direction: column; /* Stack filters vertically */
+        align-items: center;
+    }
+
+    .filters input {
+        width: 100%; /* Make search input take full width */
+        margin-bottom: 10px; /* Add margin below search input */
+    }
+
+    .filters select {
+        width: 48%; /* Make dropdowns take half width */
+        margin-bottom: 10px; /* Add margin below dropdowns */
+    }
+
+    .filters .reset-filters {
+        width: 48%; /* Make reset button take half width */
+        margin-left: 0; /* Remove left margin */
+    }
+    
+    .filters-row {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    .filters-row:last-child {
+        justify-content: space-between;
     }
 
     .modal-content {
@@ -199,7 +225,7 @@ body, html {
 #app-container {
   display: flex;
   flex-direction: column;
-  flex: 1; /* Allow the container to grow and take up available space */
+  flex-grow: 1; /* Allow the container to grow and take up available space */
   min-height: 100vh; /* Ensure the container takes up the full height */
 }
 
@@ -209,4 +235,24 @@ body, html {
 
 footer {
   margin-top: auto; /* Push the footer to the bottom */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-button {
+  background-color: #ccc;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.page-button:hover {
+  background-color: #999;
 }

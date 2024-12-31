@@ -24,7 +24,7 @@
 .filters select {
     padding: 8px;
     margin: 5px;
-    width: 180px;
+    width: 180px; /* Ensure consistent width for all dropdowns */
     border-radius: 4px;
     border: 1px solid #ccc;
 }

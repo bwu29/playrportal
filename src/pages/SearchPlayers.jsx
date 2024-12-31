@@ -73,6 +73,7 @@ const SearchPlayers = () => {
       );
     });
     setFilteredPlayers(filtered);
+    setCurrentPage(1); // Reset to first page after filtering
     try {
       logEvent('Player Search', { searchTerm, birthYear, position, citizenship, availability, proExperience });
     } catch (error) {
@@ -162,6 +163,7 @@ const SearchPlayers = () => {
     setAvailability("");
     setProExperience("");
     setFilteredPlayers(players);
+    setCurrentPage(1); // Reset to first page after clearing filters
   };
 
   // Pagination logic
@@ -181,53 +183,47 @@ const SearchPlayers = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="filters-row">
-          <select onChange={(e) => setBirthYear(e.target.value)} value={birthYear}>
-            <option value="">Select Birth Year</option>
-            {BIRTH_YEARS.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <select onChange={(e) => setPosition(e.target.value)} value={position}>
-            <option value="">Select Position</option>
-            {POSITIONS.map((pos) => (
-              <option key={pos} value={pos}>
-                {pos}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="filters-row">
-          <select onChange={(e) => setCitizenship(e.target.value)} value={citizenship}>
-            <option value="">Select Citizenship</option>
-            {COUNTRIES.map((cit) => (
-              <option key={cit} value={cit}>
-                {cit}
-              </option>
-            ))}
-          </select>
-          <select onChange={(e) => setAvailability(e.target.value)} value={availability}>
-            <option value="">Select Availability</option>
-            {AVAILABILITY.map((avail) => (
-              <option key={avail} value={avail}>
-                {avail}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="filters-row">
-          <select onChange={(e) => setProExperience(e.target.value)} value={proExperience}>
-            <option value="">Select Years of Pro Experience</option>
-            {PRO_EXPERIENCE.map((exp) => (
-              <option key={exp} value={exp}>
-                {exp}
-              </option>
-            ))}
-          </select>
-          <button className="reset-filters text-button" onClick={clearFilters}>Clear Filters</button>
-        </div>
+        <select onChange={(e) => setBirthYear(e.target.value)} value={birthYear}>
+          <option value="">Select Birth Year</option>
+          {BIRTH_YEARS.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+        <select onChange={(e) => setPosition(e.target.value)} value={position}>
+          <option value="">Select Position</option>
+          {POSITIONS.map((pos) => (
+            <option key={pos} value={pos}>
+              {pos}
+            </option>
+          ))}
+        </select>
+        <select onChange={(e) => setCitizenship(e.target.value)} value={citizenship}>
+          <option value="">Select Citizenship</option>
+          {COUNTRIES.map((cit) => (
+            <option key={cit} value={cit}>
+              {cit}
+            </option>
+          ))}
+        </select>
+        <select onChange={(e) => setAvailability(e.target.value)} value={availability}>
+          <option value="">Select Availability</option>
+          {AVAILABILITY.map((avail) => (
+            <option key={avail} value={avail}>
+              {avail}
+            </option>
+          ))}
+        </select>
+        <select onChange={(e) => setProExperience(e.target.value)} value={proExperience}>
+          <option value="">Select Years of Pro Experience</option>
+          {PRO_EXPERIENCE.map((exp) => (
+            <option key={exp} value={exp}>
+              {exp}
+            </option>
+          ))}
+        </select>
+        <button className="reset-filters text-button" onClick={clearFilters}>Clear Filters</button>
       </div>
       {loading ? (
         <div className="loading-indicator">Loading...</div>

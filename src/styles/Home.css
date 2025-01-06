@@ -132,7 +132,7 @@ html, body {
 
 /* Styling for the Purpose Section */
 .purpose {
-    text-align: center; /* Centers content */
+    text-align: left; /* Left-justify content */
     padding: 40px 20px; /* Add padding around the section */
     background-color: #f8f9fa; /* Light background for the purpose section */
     width: 100%; /* Ensure it takes up the full width */

@@ -132,20 +132,16 @@ html, body {
 
 /* Styling for the Purpose Section */
 .purpose {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
-    margin: 20px 0;
+    text-align: center; /* Centers content */
+    padding: 40px 20px; /* Add padding around the section */
     background-color: #f8f9fa; /* Light background for the purpose section */
     width: 100%; /* Ensure it takes up the full width */
     box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 .purpose img {
-    max-width: 100%;
-    height: auto;
+    max-width: 400px; /* Make the image smaller */
+    height: auto; /* Maintain aspect ratio */
     margin-bottom: 20px; /* Add spacing below the image */
 }
 
@@ -161,7 +157,7 @@ html, body {
     line-height: 1.6; /* Increase line height for readability */
     color: #555; /* Dark gray text color */
     max-width: 800px; /* Limit paragraph width */
-    margin: 20px 0;
+    margin: 0 auto; /* Center the paragraph */
     padding: 0 15px; /* Add padding to ensure text is not cut off */
 }
 
@@ -223,10 +219,6 @@ html, body {
         max-width: 400px; /* Ensure it takes up the full width on mobile */
     }
 
-    .purpose {
-        padding: 10px;
-    }
-
     .purpose img {
         max-width: 100%;
         margin-bottom: 20px;
@@ -237,8 +229,7 @@ html, body {
     }
 
     .purpose p {
-        font-size: 14px; /* Adjust font size for smaller screens */
-        margin: 10px 0;
+        font-size: 1rem;
         padding: 0 15px; /* Add padding to ensure text is not cut off */
     }
 }

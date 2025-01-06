@@ -140,9 +140,10 @@ html, body {
 }
 
 .purpose img {
+    display: block; /* Make the image a block element */
+    margin: 0 auto 20px; /* Center the image and add spacing below */
     max-width: 400px; /* Make the image smaller */
     height: auto; /* Maintain aspect ratio */
-    margin-bottom: 20px; /* Add spacing below the image */
 }
 
 .purpose h1 {
